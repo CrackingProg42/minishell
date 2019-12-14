@@ -1,2 +1,2 @@
 # minishell
-a 42 schooll project
+a 42 school project
