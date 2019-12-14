@@ -6,7 +6,7 @@
 /*   By: paszhang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 15:01:36 by paszhang          #+#    #+#             */
-/*   Updated: 2019/12/14 17:04:13 by paszhang         ###   ########.fr       */
+/*   Updated: 2019/12/15 00:02:32 by paszhang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,15 @@ void	ft_print_echo(char *str, char **envp , int i)
 			i++;
 			continue ;
 		}
-		 if (str[i] == '$')
-		 {
-		 	 if (ft_variable(&str[i], &i , envp)
+		if (str[i] == '$')
+		{
+		 	 if (!ft_variable(&str[i], &i , envp))
 				write(1, &str[i], 1);
 		}
-			else if ((str[i] != '\"' && str[i] != '\'' && str[i] != '\\' 
-			&& str[i] != '$') || (i != 0 && (str[i- 1]) == '\\') 
-				|| quote == -1 || dquote == -1)
-				write(1, &str[i], 1);
+		else if ((str[i] != '\"' && str[i] != '\'' && str[i] != '\\' 
+		&& str[i] != '$') || (i != 0 && (str[i- 1]) == '\\') 
+			|| quote == -1 || dquote == -1)
+			write(1, &str[i], 1);
 		i++;
 	}
 }
@@ -88,21 +88,16 @@ int		ft_check_quote(char *str)
 	return (dquote == 1 && quote == 1 ? 0 : 1);
 }
 
-char 	*ft_get_str(char *str, int quote ,int dquote)
+char 	*ft_get_str(char *str, int quote ,int dquote, int fd)
 {
 	char buf[2];
-	int i;
+	int ret;
 
-	str = ft_save_rest(str, "\n");
-	i = -1;
-	while (str[++i])
-	{
-		str[i] == '\'' && dquote == 1 ? quote *= -1 : 0;
-		str[i] == '\"' && quote == 1 ? dquote *= -1: 0;
-	}	
 	while  (1)
 	{
-		read(0, buf, 1);
+		ret = read(fd, buf, 1);
+		if (ret == 0)
+			return (NULL);
 		buf[1] = '\0';
 		if (buf[0] == '\'' && dquote == 1) 
 			quote *= -1;
@@ -110,13 +105,8 @@ char 	*ft_get_str(char *str, int quote ,int dquote)
 		  	dquote *= -1;
 		if (buf[0] == '\n' && quote == 1 && dquote == 1)
 			break ;
-		if (buf[0] == '\"' || buf[0] == '\'' || buf[0] == '\\')  
-		{
-			if (quote != 1 || dquote != 1)
-				str = ft_save_rest(str, buf);
-		}
-		else
-			str = ft_save_rest(str, buf);
+		if (!(str = ft_save_rest(str, buf)))
+				return (0);
 	}
 	return (str);
 }

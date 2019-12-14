@@ -6,7 +6,7 @@
 /*   By: paszhang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/13 12:48:38 by paszhang          #+#    #+#             */
-/*   Updated: 2019/12/13 15:18:09 by paszhang         ###   ########.fr       */
+/*   Updated: 2019/12/14 23:45:47 by paszhang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,19 @@ char 	*ft_concordance(char *str, char **envp)
 }
 
 
-int		ft_fonction(char *str, char ** envp)
+int		ft_fonction(char *str, char ** envp, char cara)
 {
 	char **src;
 	int i;
 
 	i = -1;
-	src = ft_split(str, ';');
+	src = ft_split(str, cara);
 	while (src[++i])
-		if (!ft_concordance(src[i], envp))
+		if (cara == ';')
+			ft_fonction(src[i], envp, '|');
+		else if (!ft_concordance(src[i], envp))
 					ft_invalidcmd(src[i], 0, envp);
-	exit (0);
+	return (0);
 }
 
 

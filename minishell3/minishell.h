@@ -6,7 +6,7 @@
 /*   By: paszhang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 15:18:55 by paszhang          #+#    #+#             */
-/*   Updated: 2019/12/13 14:41:54 by paszhang         ###   ########.fr       */
+/*   Updated: 2019/12/14 23:31:37 by paszhang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,39 @@ typedef	struct	s_list
 pid_t g_pid;
 pid_t g_child;
 
+int	ft_stupid(int pipe);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //ft_child
 int		ft_child(char **envp);
 
 //ft_fonction 
-int		ft_fonction(char *str, char **envp);
-
+int		ft_fonction(char *str, char ** envp, char cara);
 
 //ft_split
 int		compare(char str, char charset);
 char	**ft_split(char *str, char charset);
-
-//fonction
-char 	*ft_concordance(char *str, char **envp);
 
 // ft_error
 void	ft_invalidcmd(char *str, int mode, char **envp);
@@ -60,8 +80,9 @@ char	*ft_save_rest(char *str1, char *str2);
 //   ft_echo
 void	ft_echo(char *str ,char **envp);
 int		ft_check_quote(char *str);
-char 	*ft_get_str(char *str, int quote ,int dquote);
+char 	*ft_get_str(char *str, int quote ,int dquote, int fd);
 void	ft_print_echo(char *str, char **envp, int i);
+
 // ft_print
 void	ft_print_header(void);
 void	ft_home(void);
@@ -76,7 +97,7 @@ int		ft_cmp(char *str1, char *str2);
 char 	*ft_strneedel(char *src, char *need);
 
 //variable
-void	ft_variable(char *str, int *a, char ** envp);
+int		ft_variable(char *str, int *a, char ** envp);
 
 // ft_signal.c
 void	ft_sigquit(int a);

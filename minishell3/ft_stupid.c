@@ -1,50 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_variable.c                                      :+:      :+:    :+:   */
+/*   ft_stupid.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paszhang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/11 18:58:55 by paszhang          #+#    #+#             */
-/*   Updated: 2019/12/14 17:09:34 by paszhang         ###   ########.fr       */
+/*   Created: 2019/12/14 22:41:08 by paszhang          #+#    #+#             */
+/*   Updated: 2019/12/15 00:03:00 by paszhang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-void	ft_write_variable(char *str)
+int		ft_stupid(int pipe)
 {
-	while(*str != '=')
-		str++;
-	str++;
-	while(*str)
-		write(1,str++,1);
+	char *save;
+
+	save = malloc(1);
+	*save = '\0';
+	if (!(save = ft_get_str(save, 1, 1, 0)))
+		return (-1);
+	while(*save)
+		write(pipe, save++, 1);
+	write(pipe, "\n",1);
+	return (0);
 }
 
-int		ft_variable(char *str, int *a, char **envp)
-{
-	int i;
-	int ret;
-
-	ret = 0;
-	str++;
-	*a = *a + 1;
-	i = 0;
-	while (envp[i])
-	{
-		if (ft_cmp_tospace(envp[i], str))
-		{
-			ret = 1;
-			ft_write_variable(envp[i]);			
-			break;
-		}
-		i++;
-	}
-	i = 0;
-	while (str[i] != ' ' && str[i])
-		i++;
-	*a = *a + i;
-	return (ret);
-}
 
