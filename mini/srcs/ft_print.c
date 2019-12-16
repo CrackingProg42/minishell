@@ -6,7 +6,7 @@
 /*   By: paszhang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 17:24:51 by paszhang          #+#    #+#             */
-/*   Updated: 2019/12/11 18:51:35 by paszhang         ###   ########.fr       */
+/*   Updated: 2019/12/15 12:09:03 by paszhang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,11 @@ void	ft_print_header(void)
 
 void	ft_home(void)
 {
+	char *str;
+
+	str = getcwd(NULL,0);
 	ft_putstrfd(1,"\033[32m");
-	ft_putstrfd(1, getcwd(NULL,0));
+	ft_putstrfd(1, str);
+	free(str);
 	ft_print_header();
 }

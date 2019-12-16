@@ -6,11 +6,52 @@
 /*   By: paszhang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 18:48:37 by paszhang          #+#    #+#             */
-/*   Updated: 2019/12/14 22:41:56 by paszhang         ###   ########.fr       */
+/*   Updated: 2019/12/16 14:36:07 by paszhang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
+int		ft_lenght_to_cara(char *str, char cara)
+{
+	int quote;
+	int dquote;
+	int i;
+
+	dquote = 1;
+	quote = 1;
+	i = 0;
+	while (str[i])
+	{
+		str[i] == '\'' && dquote == 1 ? quote *= -1 : 0;
+		str[i] == '\"' && quote == 1 ? dquote *= -1: 0;
+		if (str[i] == cara  && quote == 1 && dquote == 1)
+			break ;
+		i++;
+	}
+	return (i);
+}
+
+char 	*ft_dup_to_space(char *str)
+{
+	char *dest;
+	int i;
+	int lenght;
+
+	lenght = ft_lenght_to_cara(str, ' ');
+	if (!(dest = malloc(lenght + 1)))
+		return (0);
+	i = 0;
+	while (i < lenght)
+	{
+		dest[i] = str[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
 
 void	ft_putstrfd(int fd, char *str)
 {

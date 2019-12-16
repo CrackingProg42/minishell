@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_separe.c                                        :+:      :+:    :+:   */
+/*   ft_concordance.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paszhang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/13 12:48:38 by paszhang          #+#    #+#             */
-/*   Updated: 2019/12/14 23:45:47 by paszhang         ###   ########.fr       */
+/*   Created: 2019/12/16 11:55:41 by paszhang          #+#    #+#             */
+/*   Updated: 2019/12/16 21:06:16 by paszhang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char 	*ft_concordance(char *str, char **envp)
+char	*ft_concordance2(char *str, char **envp, int mode)
 {
 	char *ret;
 
-	(ret = ft_strneedel(str, "echo")) ? ft_echo(str, envp) : 0;
+	(ret = ft_strneedel(str, "echo")) && mode ? ft_echo(str, envp) : 0;
 	if (!ret)
 	{
 		while (*str == ' ')
@@ -26,20 +25,12 @@ char 	*ft_concordance(char *str, char **envp)
 	return (ret);
 }
 
-
-int		ft_fonction(char *str, char ** envp, char cara)
+int		ft_concordance(char *str, char **envp, int mode)
 {
-	char **src;
-	int i;
-
-	i = -1;
-	src = ft_split(str, cara);
-	while (src[++i])
-		if (cara == ';')
-			ft_fonction(src[i], envp, '|');
-		else if (!ft_concordance(src[i], envp))
-					ft_invalidcmd(src[i], 0, envp);
-	return (0);
+	 if (!ft_concordance2(str, envp, mode))
+	 {
+	 	ft_invalidcmd(str, 0, envp);
+		return (1);
+	 }
+	 return (0);
 }
-
-

@@ -6,7 +6,7 @@
 /*   By: paszhang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 15:18:55 by paszhang          #+#    #+#             */
-/*   Updated: 2019/12/14 23:31:37 by paszhang         ###   ########.fr       */
+/*   Updated: 2019/12/16 21:07:56 by paszhang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,44 +26,51 @@
 
 # define BUFFER_SIZE 1
 
-typedef	struct	s_list
+enum {ECHO, CD, PWD, EXPORT, UNSET, ENV, EXIT}; 
+
+typedef	struct	s_redir
 {
-	char *cmd;
-	char *arg;
-}				t_list;
+	char *path;
+	int in;
+	int putfile;
+	int putendfile;
+}				t_redir;
 
 pid_t g_pid;
 pid_t g_child;
 
-int	ft_stupid(int pipe);
+//ft_redirection
+int		ft_redirection(t_redir redir, int pipefd[2], int save);
+
+//ft_cut 
+int		ft_cut_pipe(char *str, char **envp);
 
 
 
+//ft_cut_comma
+int		ft_cut_comma(char *str, char **envp);
 
+// ft_get_cmd
+int	ft_get_cmd(int pipe);
 
+// after_comma
+int 	ft_after_comma(char *str, char **envp);
 
+// ft_check_pipe_redirection_comma
+int		ft_check_if_pipe(char *str);
+int		ft_check_if_comma(char *str);
+t_redir ft_check_redirection(char *str);
 
+//ft_concordance 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+int		ft_concordance(char *str, char **envp, int mode);
+char	*ft_concordance2(char *str, char **envp, int mode);
 
 //ft_child
 int		ft_child(char **envp);
 
-//ft_fonction 
-int		ft_fonction(char *str, char ** envp, char cara);
+//ft_cut_comma 
+int		ft_cut_comma(char *str, char ** envp);
 
 //ft_split
 int		compare(char str, char charset);
@@ -74,13 +81,16 @@ void	ft_invalidcmd(char *str, int mode, char **envp);
 void	ft_cd_error(char *str, int mode, char **envp);
 
 //	ft_get_next_line
-int		get_next_line(int fd, char **line);
 char	*ft_save_rest(char *str1, char *str2);
+
+//ft_free
+int		ft_free_2d(char **str);
+int 	ft_free(char *str);
 
 //   ft_echo
 void	ft_echo(char *str ,char **envp);
 int		ft_check_quote(char *str);
-char 	*ft_get_str(char *str, int quote ,int dquote, int fd);
+char 	*ft_get_str(int quote ,int dquote, int fd);
 void	ft_print_echo(char *str, char **envp, int i);
 
 // ft_print
@@ -95,6 +105,10 @@ void	ft_putstrfd(int fd, char *str);
 int		ft_cmp_tospace(char *str1, char *str2);
 int		ft_cmp(char *str1, char *str2);
 char 	*ft_strneedel(char *src, char *need);
+int		ft_free_2d(char **str);
+char 	*ft_dup_to_space(char *str);
+char	*ft_strtrim(char *s1, char const *set);
+int		ft_lenght_to_cara(char *str, char cara);
 
 //variable
 int		ft_variable(char *str, int *a, char ** envp);

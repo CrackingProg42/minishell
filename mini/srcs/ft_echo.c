@@ -6,7 +6,7 @@
 /*   By: paszhang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 15:01:36 by paszhang          #+#    #+#             */
-/*   Updated: 2019/12/15 00:02:32 by paszhang         ###   ########.fr       */
+/*   Updated: 2019/12/16 21:11:56 by paszhang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,25 +88,38 @@ int		ft_check_quote(char *str)
 	return (dquote == 1 && quote == 1 ? 0 : 1);
 }
 
-char 	*ft_get_str(char *str, int quote ,int dquote, int fd)
+char 	*ft_get_str(int quote ,int dquote, int fd)
 {
 	char buf[2];
-	int ret;
+	char *str;
+	int i;
 
+	i = -1;
+	if (!(str = malloc(1)))
+		return (0);
+	*str = '\0';
 	while  (1)
 	{
-		ret = read(fd, buf, 1);
-		if (ret == 0)
+		i++;
+		if(read(fd, buf, 1) == 0)
+		{
+			free(str);
 			return (NULL);
+		}
 		buf[1] = '\0';
 		if (buf[0] == '\'' && dquote == 1) 
 			quote *= -1;
 		if (buf[0] == '\"' && quote == 1)
 		  	dquote *= -1;
 		if (buf[0] == '\n' && quote == 1 && dquote == 1)
-			break ;
+		{
+			if (str[i - 1] != '|')
+				break ;
+			else
+				continue ;
+		}
 		if (!(str = ft_save_rest(str, buf)))
-				return (0);
+			return (0);
 	}
 	return (str);
 }
