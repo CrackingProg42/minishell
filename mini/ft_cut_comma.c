@@ -6,7 +6,7 @@
 /*   By: paszhang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 14:39:15 by paszhang          #+#    #+#             */
-/*   Updated: 2019/12/16 20:34:18 by paszhang         ###   ########.fr       */
+/*   Updated: 2019/12/17 11:18:10 by paszhang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int		ft_cmd(char *str, char **src)
 	return (i);
 }
 
-int		ft_cut_comma(char *str, char **envp)
+int		ft_cut_comma(char *str, char ***envp)
 {
 	char *src;
 	int ret;

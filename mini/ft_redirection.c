@@ -6,13 +6,13 @@
 /*   By: paszhang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 13:46:12 by paszhang          #+#    #+#             */
-/*   Updated: 2019/12/16 20:54:27 by paszhang         ###   ########.fr       */
+/*   Updated: 2019/12/16 22:25:44 by paszhang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		ft_redirection(t_redir redir, int pipefd[2], int save)
+int		ft_redirection(t_redir redir, int pipefd[2], int *save)
 {
 	int fd;
 
@@ -34,6 +34,9 @@ int		ft_redirection(t_redir redir, int pipefd[2], int save)
 	}
 	if (redir.in)
 	{
+		if ((fd = open(redir.path, O_RDONLY)) == -1)
+			return (-1);
+		*save = fd;
 	}
 	free(redir.path);	
 	if (redir.path && redir.in == 0 && redir.putfile == 0 && redir.putendfile == 0)

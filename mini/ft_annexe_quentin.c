@@ -1,27 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_cut_pipe.c                                      :+:      :+:    :+:   */
+/*   ft_annexe_quentin.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paszhang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/16 15:22:21 by paszhang          #+#    #+#             */
-/*   Updated: 2019/12/17 11:17:51 by paszhang         ###   ########.fr       */
+/*   Created: 2019/12/17 10:42:09 by paszhang          #+#    #+#             */
+/*   Updated: 2019/12/17 10:42:36 by paszhang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		ft_cut_pipe(char *str, char ***envp)
+int			ft_strlen(char *s)
 {
-	char **src;
-	int i;
+	int	i;
 
-	if (!(src = ft_split(str, '|')))
-		return (1);
-	if (ft_fork(src, envp))
-		return (ft_free_2d(src));
-	ft_free_2d(src);
-	free(str);
-	return (0);
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
+
+char		*ft_join(char *str1, char *str2)
+{
+	char	*new;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	if (!(new = malloc(sizeof(char) * (ft_strlen(str1) + ft_strlen(str2) + 1))))
+		return (NULL);
+	while (str1[i])
+		new[j++] = str1[i++];
+	i = 0;
+	while (str2[i])
+		new[j++] = str2[i++];
+	new[j] = '\0';
+	return (new);
 }

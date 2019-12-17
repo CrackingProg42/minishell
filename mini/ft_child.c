@@ -6,13 +6,13 @@
 /*   By: paszhang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/13 13:13:15 by paszhang          #+#    #+#             */
-/*   Updated: 2019/12/16 20:25:58 by paszhang         ###   ########.fr       */
+/*   Updated: 2019/12/17 11:18:43 by paszhang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_child2(int pipefd[2], char **envp)
+void	ft_child2(int pipefd[2], char ***envp)
 {
 	char *str;
 
@@ -49,7 +49,7 @@ int		ft_child(char **envp)
 			close (pipefd[0]);
 			continue ;
 		}
-		ft_child2(pipefd, envp);
+		ft_child2(pipefd, &envp);
 	}
 	return (0);
 }

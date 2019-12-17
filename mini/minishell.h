@@ -6,7 +6,7 @@
 /*   By: paszhang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 15:18:55 by paszhang          #+#    #+#             */
-/*   Updated: 2019/12/16 21:07:56 by paszhang         ###   ########.fr       */
+/*   Updated: 2019/12/17 14:47:28 by paszhang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,45 +39,66 @@ typedef	struct	s_redir
 pid_t g_pid;
 pid_t g_child;
 
+//ft_env
+int 	ft_env(char **envp);
+char **ft_export(char *str, char **envp);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //ft_redirection
-int		ft_redirection(t_redir redir, int pipefd[2], int save);
+int		ft_redirection(t_redir redir, int pipefd[2], int *save);
 
 //ft_cut 
-int		ft_cut_pipe(char *str, char **envp);
+int		ft_cut_pipe(char *str, char ***envp);
 
 
 
 //ft_cut_comma
-int		ft_cut_comma(char *str, char **envp);
+int		ft_cut_comma(char *str, char ***envp);
 
 // ft_get_cmd
 int	ft_get_cmd(int pipe);
 
-// after_comma
-int 	ft_after_comma(char *str, char **envp);
 
 // ft_check_pipe_redirection_comma
 int		ft_check_if_pipe(char *str);
 int		ft_check_if_comma(char *str);
 t_redir ft_check_redirection(char *str);
 
+//ft_fork
+int     ft_fork(char **str,char ***envp);
+
+
 //ft_concordance 
 
-int		ft_concordance(char *str, char **envp, int mode);
-char	*ft_concordance2(char *str, char **envp, int mode);
+int		ft_concordance(char *str, char ***envp, int mode);
+int		ft_concordance2(char *str, char **envp, int mode);
 
 //ft_child
 int		ft_child(char **envp);
 
 //ft_cut_comma 
-int		ft_cut_comma(char *str, char ** envp);
+int		ft_cut_comma(char *str, char ***envp);
 
 //ft_split
 int		compare(char str, char charset);
 char	**ft_split(char *str, char charset);
 
 // ft_error
-void	ft_invalidcmd(char *str, int mode, char **envp);
+int		ft_invalidcmd(char *str, int mode, char **envp);
 void	ft_cd_error(char *str, int mode, char **envp);
 
 //	ft_get_next_line
@@ -92,6 +113,7 @@ void	ft_echo(char *str ,char **envp);
 int		ft_check_quote(char *str);
 char 	*ft_get_str(int quote ,int dquote, int fd);
 void	ft_print_echo(char *str, char **envp, int i);
+int		ft_echo_position(char *str);
 
 // ft_print
 void	ft_print_header(void);
@@ -109,7 +131,7 @@ int		ft_free_2d(char **str);
 char 	*ft_dup_to_space(char *str);
 char	*ft_strtrim(char *s1, char const *set);
 int		ft_lenght_to_cara(char *str, char cara);
-
+int		ft_cmp_to_cara(char *str1, char *str2, char c);
 //variable
 int		ft_variable(char *str, int *a, char ** envp);
 
