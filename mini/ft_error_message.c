@@ -6,7 +6,7 @@
 /*   By: paszhang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 14:47:36 by paszhang          #+#    #+#             */
-/*   Updated: 2019/12/19 14:13:26 by paszhang         ###   ########.fr       */
+/*   Updated: 2019/12/19 16:36:53 by paszhang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int		ft_invalidcmd(char *str, int mode, char **envp)
 		mode == 0 ? ft_printf("\033[32mminishell\033[0m: command not foud : ") : 0;
 		mode == 0 ?	ft_print_echo(str, envp ,0) : 0;
 		mode == 1 ? ft_printf("\033[32mminishell\033[0m: parse error near `<' or '>'") : 0;
+		mode == 2 ? ft_printf("\033[32mminishell\033[0m: export: not valid in this context") : 0;
 		write(1, "\n", 1);
 	}
 	return (1);

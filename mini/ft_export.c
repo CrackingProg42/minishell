@@ -6,7 +6,7 @@
 /*   By: paszhang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 10:54:44 by paszhang          #+#    #+#             */
-/*   Updated: 2019/12/17 19:26:50 by paszhang         ###   ########.fr       */
+/*   Updated: 2019/12/19 16:35:59 by paszhang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		ft_check_export(char *str, int lenght)
 		str[i] == '\"' && quote == 1 ? dquote *= -1: 0;
 		if (str[i] == '='  && quote == 1 && dquote == 1)
 		{
-			if (i == 0|| str[i + 1] == ' ' || str[i + 1] == '\0')
+			if (i == 0 || str[i + 1] == ' ' || str[i + 1] == '\0')
 				return (1);
 			return (0);
 		}
@@ -88,7 +88,7 @@ char 	*ft_get_var(char *str)
 	i++;
 	if (!(new_v = ft_dup_export(&str[i])))
 		return (0);
-	return (ft_strtrim(new_v, " "));
+	return (new_v);
 }
 
 
@@ -131,10 +131,13 @@ char **ft_export(char *str, char **envp)
 {
 	char *new_v;
 	char **new_envp;
-
-	g_dollar = 1;
+	
+	g_dollar = 127;
 	if (!(new_v = ft_get_var(str)))
+	{
+		ft_invalidcmd(str, 2, envp);
 		return (envp);
+	}
 	if (!(new_envp = ft_new_envp(envp, new_v)))
 		return (envp);
 	g_dollar = 0;

@@ -6,7 +6,7 @@
 /*   By: paszhang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 15:18:55 by paszhang          #+#    #+#             */
-/*   Updated: 2019/12/19 14:13:34 by paszhang         ###   ########.fr       */
+/*   Updated: 2019/12/19 16:47:12 by paszhang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ int		ft_cmp_to_cara(char *str1, char *str2, char c);
 char	*ft_strneedel_cara(char *src, char *need, char cara);
 
 //variable
-int		ft_variable(char *str, int *a, char ** envp);
+int		ft_variable(char *str, int *a, char ** envp, int *quote, int *dquote);
 
 // ft_signal.c
 void	ft_sigquit();

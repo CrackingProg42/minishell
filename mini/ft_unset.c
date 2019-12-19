@@ -6,7 +6,7 @@
 /*   By: paszhang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 16:01:58 by paszhang          #+#    #+#             */
-/*   Updated: 2019/12/19 10:49:17 by paszhang         ###   ########.fr       */
+/*   Updated: 2019/12/19 15:45:04 by paszhang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int		ft_unset(char *str, char **envp)
 	{
 		if (ft_cmp_unset(envp[i], str))
 		{
+			free(envp[i]);
 			ft_swap(&envp[i]);
 			break ;
 		}

@@ -6,7 +6,7 @@
 /*   By: paszhang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 15:01:36 by paszhang          #+#    #+#             */
-/*   Updated: 2019/12/19 13:57:03 by paszhang         ###   ########.fr       */
+/*   Updated: 2019/12/19 16:47:23 by paszhang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	ft_print_echo(char *str, char **envp , int i)
 		}
 		if (str[i] == '$')
 		{
-		 	 if (!ft_variable(&str[i], &i , envp))
+		 	 if (!ft_variable(&str[i], &i , envp, &quote , &dquote))
 				write(1, &str[i], 1);
 		}
 		else if ((str[i] != '\"' && str[i] != '\'' && str[i] != '\\' 
@@ -114,7 +114,7 @@ char 	*ft_get_str(int quote ,int dquote, int fd)
 		  	dquote *= -1;
 		if (buf[0] == '\n' && quote == 1 && dquote == 1)
 		{
-			if (i != 0 && str[i - 1] != '|')
+			if (i != 0 && str[i - 1] != '|' && str[i - 1] != '\\')
 				break ;
 			else
 				continue ;
