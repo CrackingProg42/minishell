@@ -15,7 +15,7 @@
 int		ft_error_dollar()
 {
 	ft_printf("\033[32mminishell\033[0m: command not foud : %d\n",g_dollar);
-	return (-1);
+	return (127);
 }
 
 int		ft_invalidcmd(char *str, int mode, char **envp)
