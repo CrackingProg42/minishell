@@ -20,8 +20,14 @@ int		ft_error_dollar()
 
 int		ft_invalidcmd(char *str, int mode, char **envp)
 {
+	int i;
+
+	i = 0;
 	if (!(str[0] == '$' && str[1] == '?' && str[2] == '\0'))
 	{
+		while (str[i] != ' ' && str[i])
+			i++;
+		str[i] = '\0';
 		mode == 0 ? ft_printf("\033[32mminishell\033[0m: command not foud : ") : 0;
 		mode == 0 ?	ft_print_echo(str, envp ,0) : 0;
 		mode == 1 ? ft_printf("\033[32mminishell\033[0m: parse error near `<' or '>'") : 0;
