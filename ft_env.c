@@ -1,32 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: QFM <quentin.feuillade33@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/19 15:10:30 by qfeuilla          #+#    #+#             */
-/*   Updated: 2019/12/19 15:29:41 by qfeuilla         ###   ########.fr       */
+/*   Created: 2019/12/22 21:01:13 by QFM               #+#    #+#             */
+/*   Updated: 2019/12/22 21:34:20 by QFM              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	sigquit()
+int 	ft_env(char **envp)
 {
-	if (g_pid > 0)
-		write(1, "\b\b  \b\b", 6);
-	if (g_child > 0)
-		kill(g_child, SIGTERM);
-}
-
-void	sig()
-{
-	if (g_pid > 0)
-	{
-		write(1, "\b\b  \b\b",6);
-		kill(g_pid, SIGTERM);
-		g_pid = 0;
-		write(1, "\n", 1);
-	}
+	while (*envp)
+		ft_printf("%s\n",*envp++);
+	return (0);
 }
