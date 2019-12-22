@@ -49,7 +49,6 @@ int	ft_path(char *str, char **envp)
 	ft_rm_split_quote(arg);
 	if (!(arg[0] = ft_prepare_str(arg[0])))
 		return (1);
-	printf ("arg = %s.\n",arg[0]);
 	path = arg[0];
 	i = 0;
 	while (splitpath[i])
