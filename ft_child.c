@@ -57,7 +57,6 @@ int		ft_child(t_env *env)
 			ft_close_pipe(pipefd);
 			continue ;
 		}
-		tcsetattr(0,TCSANOW, &termios2);
 		ft_child2(pipefd, env);
 	}
 	return (0);
