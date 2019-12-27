@@ -43,7 +43,8 @@ int		ft_child(t_env *env)
 			termios1.c_lflag &= ~(ICANON | ECHO |ISIG| ECHOCTL);
 			tcsetattr(0,TCSADRAIN, &termios1);
 			if (ft_get_cmd(pipefd))
-			{	tcsetattr(0,TCSANOW, &termios2);
+			{	
+				tcsetattr(0,TCSANOW, &termios2);
 					exit (-1);
 			}
 			tcsetattr(0,TCSANOW, &termios2);
