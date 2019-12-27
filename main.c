@@ -6,7 +6,7 @@
 /*   By: paszhang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 15:19:51 by paszhang          #+#    #+#             */
-/*   Updated: 2019/12/27 10:31:08 by paszhang         ###   ########.fr       */
+/*   Updated: 2019/12/27 12:11:07 by paszhang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ int main(int ac, char **av, char **envp)
 	g_dollar = 0;
 	if (!(env.envp = ft_copy_envp(envp)))
 		return (0);
-	signal(SIGQUIT, ft_sigquit); // ctrl + '\' 
+	signal(SIGQUIT, ft_sigdump); // ctrl + '\' 
+	signal(SIGINT, ft_sigquit); // ctrl + '\c' 
 	ft_child(&env);
 	ft_free_2tab(env.local, env.envp, 0);
 	system("leaks a.out");

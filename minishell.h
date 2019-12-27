@@ -6,7 +6,7 @@
 /*   By: paszhang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 15:18:55 by paszhang          #+#    #+#             */
-/*   Updated: 2019/12/27 11:04:18 by paszhang         ###   ########.fr       */
+/*   Updated: 2019/12/27 12:11:41 by paszhang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,5 +224,5 @@ int		ft_variable(char *str, int *a, t_env *env, int *quote, int *dquote);
 
 // ft_signal.c
 void	ft_sigquit();
-void	ft_sig();
+void	ft_sigdump();
 #endif

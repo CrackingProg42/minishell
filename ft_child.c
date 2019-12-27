@@ -6,7 +6,7 @@
 /*   By: paszhang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/13 13:13:15 by paszhang          #+#    #+#             */
-/*   Updated: 2019/12/27 11:45:38 by paszhang         ###   ########.fr       */
+/*   Updated: 2019/12/27 12:10:02 by paszhang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ int		ft_child(t_env *env)
 			termios1.c_lflag &= ~(ICANON | ECHO |ISIG| ECHOCTL);
 			tcsetattr(0,TCSADRAIN, &termios1);
 			if (ft_get_cmd(pipefd))
+			{	tcsetattr(0,TCSANOW, &termios2);
 					exit (-1);
+			}
+			tcsetattr(0,TCSANOW, &termios2);
 			exit(0);
 		}
 		waitpid(g_pid, &status,0);

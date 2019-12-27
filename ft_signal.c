@@ -6,7 +6,7 @@
 /*   By: paszhang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/12 16:59:04 by paszhang          #+#    #+#             */
-/*   Updated: 2019/12/27 11:09:42 by paszhang         ###   ########.fr       */
+/*   Updated: 2019/12/27 12:12:32 by paszhang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,18 @@
 
 void	ft_sigquit()
 {
+	printf("\b\b  \b\bquit\n");
 	if (g_child > 0)
 	{	
-		ft_printf("fdfd\n");
+		kill(g_child, SIGINT);
+	}
+}
+
+void	ft_sigdump()
+{
+	printf("\b\b  \b\bI dumping this shit\n");
+	if (g_child > 0)
+	{	
 		kill(g_child, SIGQUIT);
 	}
 }
