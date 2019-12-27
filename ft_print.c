@@ -6,11 +6,21 @@
 /*   By: paszhang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 17:24:51 by paszhang          #+#    #+#             */
-/*   Updated: 2019/12/15 12:09:03 by paszhang         ###   ########.fr       */
+/*   Updated: 2019/12/27 11:04:50 by paszhang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
+void	ft_print_2d(char **str)
+{
+	while(*str)
+	{
+		ft_putstr(*str++);
+		ft_putstr("\n");
+	}
+}
 
 
 void	ft_print_header(void)

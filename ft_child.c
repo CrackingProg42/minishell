@@ -6,7 +6,7 @@
 /*   By: paszhang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/13 13:13:15 by paszhang          #+#    #+#             */
-/*   Updated: 2019/12/27 10:29:19 by paszhang         ###   ########.fr       */
+/*   Updated: 2019/12/27 11:45:38 by paszhang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ int		ft_child(t_env *env)
 	
 	tcgetattr(0,&termios1);
 	tcgetattr(0,&termios2);
-	termios1.c_cc[VMIN] = 1;
-	termios1.c_lflag &= ~(ICANON | ECHO |ISIG| ECHOCTL);
 	while (1)
 	{
 		g_child = 0;
@@ -41,6 +39,8 @@ int		ft_child(t_env *env)
 			return (1);
 		if ((g_pid = fork()) == 0)
 		{
+			termios1.c_cc[VMIN] = 1;
+			termios1.c_lflag &= ~(ICANON | ECHO |ISIG| ECHOCTL);
 			tcsetattr(0,TCSADRAIN, &termios1);
 			if (ft_get_cmd(pipefd))
 					exit (-1);
@@ -54,7 +54,7 @@ int		ft_child(t_env *env)
 			ft_close_pipe(pipefd);
 			continue ;
 		}
-		tcsetattr(0,TCSADRAIN, &termios2);
+		tcsetattr(0,TCSANOW, &termios2);
 		ft_child2(pipefd, env);
 	}
 	return (0);

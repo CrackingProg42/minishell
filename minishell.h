@@ -6,7 +6,7 @@
 /*   By: paszhang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 15:18:55 by paszhang          #+#    #+#             */
-/*   Updated: 2019/12/27 10:29:03 by paszhang         ###   ########.fr       */
+/*   Updated: 2019/12/27 11:04:18 by paszhang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ int		ft_echo_position(char *str);
 // ft_print
 void	ft_print_header(void);
 void	ft_home(void);
-
+void	ft_print_2d(char **str);
 //ft_printf
 int		ft_printf(char *str, ...);
 

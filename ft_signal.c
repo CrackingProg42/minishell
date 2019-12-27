@@ -6,7 +6,7 @@
 /*   By: paszhang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/12 16:59:04 by paszhang          #+#    #+#             */
-/*   Updated: 2019/12/25 15:37:52 by paszhang         ###   ########.fr       */
+/*   Updated: 2019/12/27 11:09:42 by paszhang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@
 void	ft_sigquit()
 {
 	if (g_child > 0)
+	{	
+		ft_printf("fdfd\n");
 		kill(g_child, SIGQUIT);
+	}
 }
 
 /*
