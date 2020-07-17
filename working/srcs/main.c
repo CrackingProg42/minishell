@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 13:39:32 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/15 10:45:03 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/17 12:56:09 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,8 @@ void	minishell_start()
 		}
 		else
 		{
-			if ((command_list = get_command_list(token_list)))
-			{
-				execute_pipes(&command_list);
-			}
+			command_list = get_command_list(token_list);
+			execute_pipes(&command_list);
 			ft_lstclear(&token_list, free);
 			free_commandlist(&command_list);
 		}

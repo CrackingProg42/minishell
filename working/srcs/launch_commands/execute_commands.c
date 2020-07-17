@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 16:17:09 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/15 11:34:08 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/17 15:53:08 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@ t_list	*copy_command(t_list *command_start)
 	{
 		if (!(token_copy = ft_strdup((char*)nav->content)))
 			return (NULL);
-		if (!(node_copy = ft_lstnew(token_copy)))
+		if (!(node_copy = ft_lstnew(token_copy))) {
+			free(token_copy);
 			return (NULL);
+		}
 		if (!command_copy)
 			command_copy = node_copy;
 		else
@@ -81,13 +83,14 @@ int		execute_commands(t_list **commandlist)
 		tmp_list = (t_list*)nav->content;
 		if (!(nav->content = expand_tokens((t_list*)nav->content)))
 		{
+			ft_lstclear(&tmp_list, free);
 			return (0);
 		}
 		ft_lstclear(&tmp_list, free);
 		if (!(args = list_to_argv((t_list*)nav->content)))
 			return (0);
 		exit_minishell(SAVE_POINTERS_TO_EXIT, NULL, commandlist, &args);
-		if (!(minishell_launch(args, &save)))
+		if (!(minishell_launch(args, &save, nav->next == NULL)))
 		{
 			free_argv(args, INT_MAX);
 			return (0);

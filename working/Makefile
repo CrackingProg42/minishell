@@ -29,7 +29,8 @@ SRCS=	srcs/parsing/prompt_loop.c\
 		srcs/builtins/launch_builtin.c\
 		srcs/signals/signal_handlers.c\
 		srcs/utils/print_tokens.c\
-		srcs/pipe/execute_pipes.c
+		srcs/pipe/execute_pipes.c\
+		srcs/redirections/redirections_utils.c
 INCLUDE_DIRS = -I srcs/libft\
 			-I includes	
 OBJECTS = ${SRCS:.c=.o}
@@ -47,12 +48,13 @@ all: $(NAME)
 	@${CC} ${FLAGS} ${INCLUDE_DIRS} -c $< -o ${<:.c=.o}
 
 $(NAME):	${OBJECTS}
-			@rm -rf logs
-			@mkdir logs
-			@echo "${LIGHT_BLUE}Compiling minishell...${NC}"
-			@make -C ${LIB_DIR} > /dev/null 2>&1
-			@cc -g ${FLAGS} ${MAIN} ${OBJECTS} ${INCLUDE_DIRS} ${LIB} -o ${NAME}
-			@echo "${GREEN}✓  minishell successfully compiled${NC}"
+	@rm -rf logs
+	@mkdir logs
+	@echo "${LIGHT_BLUE}Compiling minishell...${NC}"
+	@make -C ${LIB_DIR} > /dev/null 2>&1
+	@cc -g ${FLAGS} ${MAIN} ${OBJECTS} ${INCLUDE_DIRS} ${LIB} -o ${NAME}
+	@echo "${GREEN}✓  minishell successfully compiled${NC}"
+
 start: all
 	@@echo "${GREEN}✓  minishell launched${NC}"
 	@./${NAME}
@@ -64,20 +66,20 @@ valgrind_start: all
 test: all
 	@cc ${MAIN_TEST} ${OBJECTS} ${INCLUDE_DIRS} ${LIB} -o test_exec
 	@./test_exec
-	@rm -rf test_exec
 
 clean:
-		@rm -rf logs
-		@echo "${LIGHT_BLUE}Cleaning minishell...${NC}"
-		@make clean -C ${LIB_DIR} > /dev/null 2>&1
-		@rm -rf ${OBJECTS}
-		@echo "${GREEN}✓  minishell successfully cleaned${NC}"
+	@rm -rf logs
+	@echo "${LIGHT_BLUE}Cleaning minishell...${NC}"
+	@make clean -C ${LIB_DIR} > /dev/null 2>&1
+	@rm -rf ${OBJECTS}
+	@echo "${GREEN}✓  minishell successfully cleaned${NC}"
+	@rm -rf test_exec
 
 fclean: clean
-		@rm -rf ${LIB}
-		@echo "${GREEN}✓  lib succsessfully deleted${NC}"
-		@rm -rf $(NAME)
-		@echo "${GREEN}✓  minishell executable successfully deleted${NC}"
+	@rm -rf ${LIB}
+	@echo "${GREEN}✓  lib succsessfully deleted${NC}"
+	@rm -rf $(NAME)
+	@echo "${GREEN}✓  minishell executable successfully deleted${NC}"
 
 re: fclean all
 

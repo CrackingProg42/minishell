@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search_path.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: franciszer <franciszer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 14:02:44 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/05 10:45:18 by franciszer       ###   ########.fr       */
+/*   Updated: 2020/07/17 14:35:48 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,11 @@ char			*search_path(char *command)
 	char	**path_array;
 	char	*command_path;
 	int		i;
-
+	
+	if (!ft_strncmp(command, "pwd", ft_strlen("pwd") + 1)
+		| !ft_strncmp(command, "env", ft_strlen("env") + 1)
+		| !ft_strncmp(command, "echo", ft_strlen("echo") + 1))
+		return (ft_strdup(command));
 	if (open(command, O_CLOEXEC) != -1)
 		return (ft_strdup(command));
 	if ((command_path = search_relativepath(command)))

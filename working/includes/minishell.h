@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 13:40:30 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/15 11:17:03 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/17 14:35:54 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int				g_p_stop_sig;
 */
 
 void			minishell_start();
+char			*table_to_string(char **table);
 
 /*
 **       ______PARSING_AND_TOKENIZATION_____
@@ -97,7 +98,7 @@ t_list			*get_command_list(t_list *token_list);
 int				execute_commands(t_list **commandlist);
 void			free_commandlist(t_list **commandlist);
 void			exit_minishell(int action, t_list *token_list, t_list **commandlist, char ***args);
-int				minishell_launch(char **argv, int *start);
+int				minishell_launch(char **argv, int *start, int islast);
 char			*search_path(char *command);
 int				execute_pipes(t_list **commandlist);
 
@@ -105,8 +106,10 @@ int				execute_pipes(t_list **commandlist);
 **		_____BUILTINS_____
 */
 
-int				is_builtin(char *command);
-int				launch_builtin(int builtin_id, char **argv);
+int				is_builtin_child(char *command);
+int				is_builtin_parent(char *command);
+int				launch_builtin_child(int builtin_id, char **argv);
+int				launch_builtin_parent(int builtin_id, char **argv);
 int				builtin_cd(char **args);
 int				builtin_exit(char **args);
 int				builtin_pwd();
@@ -122,8 +125,6 @@ int				builtin_unset(char **argv);
 void			sigint_handler(int signo);
 void			sigquit_handler(int sig);
 void			signal_default();
-
-
 
 /*
 **		______UTILS______
@@ -144,5 +145,19 @@ typedef struct		s_redirection
 	int 			putendfile;
 	char			*file;
 }					t_redirection;
+
+typedef struct		s_quotes
+{
+	int				q;
+	int				dq;
+}					t_quotes;
+
+/*
+**		_____REDIRECTION_____
+*/
+
+t_redirection	stock_redir(char *cmd);
+int				redirection(t_redirection redir, int (*pipefd)[2], int *save);
+void 			cmd_to_rafter(char ***cmd);
 
 #endif

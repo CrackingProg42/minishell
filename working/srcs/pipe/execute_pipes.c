@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/15 10:16:23 by qfeuilla          #+#    #+#             */
-/*   Updated: 2020/07/15 10:56:23 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/17 15:27:31 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ int		execute_pipes(t_list **commandlist)
 	{
 		tmp_list = (t_list*)nav->content;
 		unpiped_commandlist = get_command_list_p(tmp_list);
-		
 		execute_commands(&unpiped_commandlist);
 		nav = nav->next;
 	}
