@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 13:39:32 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/19 02:11:46 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/19 18:11:47 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@ void	minishell_start()
 			ft_lstclear(&token_list, free);
 			ft_perror(ERR_UNFINISHED_QUOTE);
 		}
+		else if (!pipes_syntax_check(token_list) || pipe_error) 
+		{
+			pipe_error = 0;
+			ft_lstclear(&token_list, free);
+			ft_perror(ERR_PIPE);
+		}
 		else
 		{
 			command_list = get_command_list(token_list);
@@ -39,6 +45,7 @@ void	minishell_start()
 int	main(int argc, char **argv, char **env)
 {
 	open_pipe = 0;
+	pipe_error = 0;
 	if (argc > 1 || argv[1])
 	{
 		ft_perror(ERR_TOO_MANY_ARGS);

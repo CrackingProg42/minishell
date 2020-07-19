@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokens_syntax_check.c                              :+:      :+:    :+:   */
+/*   syntax_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/01 18:43:38 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/18 19:02:59 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/19 18:04:34 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,3 +45,11 @@ int		tokens_syntax_check(t_list *token_list)
 	}
 	return (1);
 }
+
+int		pipes_syntax_check(t_list *token_list)
+{
+	if (ft_lstlen(token_list) == 1 && !ft_strncmp(last_token(token_list), "|", 2))
+		return (0);
+	return (1);
+}
+
