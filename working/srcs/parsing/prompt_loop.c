@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 14:48:38 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/19 02:12:41 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/19 02:22:53 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_list *prompt_loop(int depth)
 		return (NULL);
 	}
 	tokenList = tokenize(line);
-	if (!ft_strncmp(last_token(tokenList), "|", 2)) {
+	if (!ft_strncmp(last_token(tokenList), "|", 2) || (depth >= 1 && !last_token(tokenList))) {
 		if (depth == 0)
 			open_pipe = 1;
 		print_prompt();
