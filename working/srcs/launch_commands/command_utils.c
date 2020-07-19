@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   command_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frthierr <frthierr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 16:21:03 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/07 10:45:17 by frthierr         ###   ########.fr       */
+/*   Updated: 2020/07/18 18:54:34 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 static void	free_command(t_list	*command)
 {
@@ -64,6 +64,6 @@ void		exit_minishell(int action, t_list *token_list, t_list **commandlist, char 
 		if (args_to_free)
 			free_argv(*args_to_free, INT_MAX);
 	}
-	system("leaks minishell");
+	system(" minishell");
 	exit (g_exit_status);
 }

@@ -6,17 +6,17 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 16:28:06 by qfeuilla          #+#    #+#             */
-/*   Updated: 2020/07/17 15:49:15 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/17 21:45:27 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 int				len_to_space(char *str) {
 	int		i;
 
 	i = 0;
-	while (*str && *str++ != ' ')
+	while (*str++ != ' ')
 		i++;
 	return (i);
 }
@@ -118,7 +118,11 @@ char			*table_to_string(char **table) {
 
     i = 0;
     str = malloc(1);
-    while (table[i])
+	if (table[i])
+    	str = ft_strjoin_free(str, table[i++]);
+    while (table[i]) {
+		str = ft_strjoin_free(str, " ");
         str = ft_strjoin_free(str, table[i++]);
+	}
     return str;
 } 

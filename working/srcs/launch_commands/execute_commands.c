@@ -6,11 +6,11 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 16:17:09 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/17 15:53:08 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/18 17:57:28 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 t_list	*copy_command(t_list *command_start)
 {

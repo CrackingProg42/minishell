@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/03 14:44:06 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/17 14:36:08 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/17 18:03:47 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int		builtin_echo(char **argv)
 {
 	int		i;
 	char	option_n;
-	char	*str;
 	
 	i = 1;
 	option_n = 0;
@@ -25,17 +24,13 @@ int		builtin_echo(char **argv)
 		option_n = 1;
 		i++;
 	}
-	if (!(str = ft_strdup(argv[i++])))
-		return (1);
+	if (argv[i])
+		ft_putstr_fd(argv[i++], STDOUT_FILENO);
 	while (argv[i])
 	{
-		if (!(str = ft_strjoin_free(str, " ")))
-				return (1);
-		if (!(str = ft_strjoin_free(str, argv[i++])))
-			return (1);
+		ft_putstr_fd(" ", STDOUT_FILENO);
+		ft_putstr_fd(argv[i++], STDOUT_FILENO);
 	}
-	ft_putstr_fd(str, STDOUT_FILENO);
-	free(str);
 	if (!option_n)
 		ft_putchar_fd('\n', STDOUT_FILENO);
 	return (0);

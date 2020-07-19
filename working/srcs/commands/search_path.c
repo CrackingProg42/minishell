@@ -6,11 +6,11 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 14:02:44 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/17 14:35:48 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/17 16:26:49 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 static char	*get_pathcommand(char *path, char *command)
 {

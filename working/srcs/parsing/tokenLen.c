@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenLen.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: franciszer <franciszer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/25 14:27:21 by frthierr          #+#    #+#             */
-/*   Updated: 2020/06/28 14:15:52 by franciszer       ###   ########.fr       */
+/*   Updated: 2020/07/17 21:34:59 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,13 @@ size_t	tokenLen(char *tokenStart)
 	while (tokenStart[i])
 	{
 		if (((isQuote(tokenStart[i]) || isSpecialChar(&tokenStart[i])) || ft_isspace(tokenStart[i]) )&& !prev_is_backslash)
+		{
+			if (tokenStart[i] == '\'')
+				return (len + tokenLenSQuote(&tokenStart[i]));
+			if (tokenStart[i] == '\"')
+				return (len + tokenLenSQuote(&tokenStart[i]));
 			return (len);
+		}
 		if (tokenStart[i] == '\\')
 			prev_is_backslash = 1;
 		else
@@ -44,7 +50,19 @@ size_t	tokenLenSQuote(char *tokenStart)
 	while (tokenStart[i])
 	{
 		if (tokenStart[i] == '\'')
-			return (++i);
+		{
+			if (tokenStart[i + 1] && !isSpecialChar(&tokenStart[i + 1]) && tokenStart[i + 1] != ' ') 
+			{
+				if (*tokenStart == '\'' && ++i)
+					return (i + tokenLenSQuote(&tokenStart[i]));
+				else if (*tokenStart == '\"' && ++i)
+					return (i + tokenLenDQuote(&tokenStart[i]));
+				else if (++i)
+					return (i + tokenLen(&tokenStart[i]));
+			}
+			else
+				return (++i);
+		}
 		i++;
 	}
 	return (i);
@@ -59,8 +77,20 @@ size_t	tokenLenDQuote(char *tokenStart)
 	prev_is_backslash = 0;
 	while (tokenStart[i])
 	{
-		if (tokenStart[i] == '\"' && !prev_is_backslash)
-			return (++i);
+		if (tokenStart[i] == '\"' && !prev_is_backslash) 
+		{
+			if (tokenStart[i + 1] && !isSpecialChar(&tokenStart[i + 1]) && tokenStart[i + 1] != ' ') 
+			{
+				if (*tokenStart == '\'' && ++i)
+					return (i + tokenLenSQuote(&tokenStart[i]));
+				else if (*tokenStart == '\"' && ++i)
+					return (i + tokenLenDQuote(&tokenStart[i]));
+				else if (++i)
+					return (i + tokenLen(&tokenStart[i]));
+			}
+			else
+				return (++i);
+		}
 		if (tokenStart[i] == '\\')
 			prev_is_backslash = 1;
 		else

@@ -6,11 +6,11 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 14:37:03 by franciszer        #+#    #+#             */
-/*   Updated: 2020/07/17 15:51:56 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/17 19:11:59 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 void	sigtest(int sig)
 {
@@ -43,9 +43,6 @@ int		minishell_launch(char **argv, int *save, int last)
 
 	if (pipe(fd) < 0)
 		return (0);
-	redir = stock_redir(table_to_string(argv));
-	cmd_to_rafter(&argv);
-	redirection(redir, &fd, save);
 	g_exit_status = 0;
 	if ((builtin_id = is_builtin_parent(argv[0])) >= 0)
 		g_exit_status = launch_builtin_parent(builtin_id, argv);
@@ -61,6 +58,9 @@ int		minishell_launch(char **argv, int *save, int last)
 	}
 	free(argv[0]);
 	argv[0] = tmp;
+	redir = stock_redir(table_to_string(argv));
+	cmd_to_rafter(&argv);
+	redirection(redir, &fd, save);
 	if (!(pid = fork()))
 	{
 		dup2(*save, 0);
@@ -71,6 +71,7 @@ int		minishell_launch(char **argv, int *save, int last)
 		signal(SIGQUIT, SIG_DFL);
 		if ((builtin_id = is_builtin_child(argv[0])) >= 0) {
 			g_exit_status = launch_builtin_child(builtin_id, argv);
+			fclose(stdout);
 			exit(g_exit_status);
 		}
 		else if (execve(argv[0], argv, g_env) == -1)

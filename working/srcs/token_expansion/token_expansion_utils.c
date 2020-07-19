@@ -3,31 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   token_expansion_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: franciszer <franciszer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/01 15:04:43 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/05 10:38:17 by franciszer       ###   ########.fr       */
+/*   Updated: 2020/07/18 17:56:53 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*remove_quotes_free(char *str, char quote)
+char	*remove_quotes(char *str)
 {
-	char	*new;
-	size_t	len;
-	int		i;
+	char		*new;
+	char		*tmp;
+	int			i;
+	t_quotes	quote;
 
-	if (!str)
-		return (NULL);
-	i = 0;
-	if (*str == quote)
-		i = 1;
-	len = ft_strlen(&str[i]);
-	if (str[len] == quote)
-		len--;
-	if (!(new = ft_strndup(&str[i], len)))
-		return (NULL);
+	i = -1;
+	quote.q = -1;
+	quote.dq = -1;
+	new = ft_strdup(str);
+	while (new[++i]) 
+	{
+		new[i] == '\'' && quote.dq == -1 ? quote.q *= -1 : 0;
+		new[i] == '\"' && quote.q == -1 ? quote.dq *= -1 : 0;
+		if ((new[i] == '\'' && quote.dq == -1) || (new[i] == '\"' && quote.q == -1)) {
+			tmp = &new[i + 1];
+			new[i] = '\0';
+			new = ft_strjoin_free(&new[0], tmp);
+			i = i - 1;
+		}
+	}
 	return (new);
 }
 

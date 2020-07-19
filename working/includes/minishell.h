@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 13:40:30 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/17 14:35:54 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/19 02:10:01 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 */
 
 # define PROMPT_START_MSG "minishell$ "
+# define PIPE_START_MSG "> "
+
 # define MINISHELL_PATH "./minishell"
 
 # define BUILTIN_CD 0
@@ -49,6 +51,7 @@ char			**g_env;
 int				g_env_modified;
 int				g_exit_status;
 int				g_p_stop_sig;
+int				open_pipe;
 
 /*
 ** ________FUNCTIONS________
@@ -62,7 +65,7 @@ char			*table_to_string(char **table);
 */
 
 void			print_prompt();
-t_list			*prompt_loop();
+t_list			*prompt_loop(int depth);
 void			manage_quotes(char *quotes, char c);
 int				isQuote(char c);
 int				isSpecialChar(char *s);
@@ -85,7 +88,7 @@ int				ft_strlen_key(char *key_start);
 char			*expand_env(char *token, char *final_token, int *i, int *j);
 void			*get_final_token(void *content);
 t_list			*expand_tokens(t_list *token_list);
-char			*expand_token_dquote(char *token);
+char			*expand_token_quote(char *token);
 char			*expand_token_noquote(char *token);
 size_t			ft_strlen_etokens(char *s);
 int				is_specialchar_dquote(char c);
@@ -132,7 +135,7 @@ void			signal_default();
 
 void			print_tokens(t_list *tokenlist);
 void			print_argv(char **argv);
-char			*remove_quotes_free(char *str, char quote);
+char			*remove_quotes(char *str);
 
 /*
 **		______STRUCTS______

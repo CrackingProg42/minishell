@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 13:39:32 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/17 12:56:09 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/19 02:11:46 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	minishell_start()
 	t_list	*token_list;
 	t_list	*command_list;
 	
-	if ((token_list = prompt_loop()))
+	if ((token_list = prompt_loop(0)))
 	{
 		if (!tokens_syntax_check(token_list))
 		{
@@ -38,6 +38,7 @@ void	minishell_start()
 
 int	main(int argc, char **argv, char **env)
 {
+	open_pipe = 0;
 	if (argc > 1 || argv[1])
 	{
 		ft_perror(ERR_TOO_MANY_ARGS);
