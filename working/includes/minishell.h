@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 13:40:30 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/19 02:10:01 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/19 18:10:57 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int				g_env_modified;
 int				g_exit_status;
 int				g_p_stop_sig;
 int				open_pipe;
+int				pipe_error;
 
 /*
 ** ________FUNCTIONS________
@@ -78,6 +79,8 @@ size_t			tokenLenSQuote(char *tokenStart);
 size_t			tokenLenDQuote(char *tokenStart);
 size_t			token_len_special(char *token_start);
 int				tokens_syntax_check(t_list *token_list);
+int				pipes_syntax_check(t_list *token_list);
+char 			*last_token(t_list *tokenlist);
 
 /*
 **       ______TOKEN_EXPANSION_____

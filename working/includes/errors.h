@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: franciszer <franciszer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 14:12:42 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/06 21:42:53 by franciszer       ###   ########.fr       */
+/*   Updated: 2020/07/19 18:07:28 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,7 @@
 # define ERR_EXECVE "error executing command"
 
 # define ERR_TOO_MANY_ARGS "too many arguments"
+
+# define ERR_PIPE "minishell: Syntax error: \"|\" unexpected"
 
 #endif
