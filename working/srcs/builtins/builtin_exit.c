@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frthierr <frthierr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/03 11:30:42 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/06 15:48:48 by frthierr         ###   ########.fr       */
+/*   Updated: 2020/07/20 16:23:26 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int		builtin_exit(char **args)
 		g_exit_status = 1;
 		ft_perror(ERR_TOO_MANY_ARGS);
 		return (1);
-	}		
+	}
 	else if (args[1] && !ft_is_strdigit(args[1]))
 		g_exit_status = 255;
 	else if (args[1])

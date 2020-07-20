@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 16:28:06 by qfeuilla          #+#    #+#             */
-/*   Updated: 2020/07/17 21:45:27 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/20 20:06:03 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int				len_to_space(char *str) {
 	int		i;
 
 	i = 0;
-	while (*str++ != ' ')
+	while (*str && *str++ != ' ')
 		i++;
 	return (i);
 }
@@ -28,10 +28,27 @@ char			*get_word(char *str) {
 	i = len_to_space(str);
 	new = (char *)malloc(sizeof(char) * (i + 1));
 	i = -1;
-	while (str[++i] != ' ')
+	while (str[i] && str[++i] != ' ')
 		new[i] = str[i];
 	new[i] = '\0';
 	return (new);
+}
+
+int				is_redir(char *cmd) {
+	int	cmd_len;
+
+	cmd_len = ft_strlen(cmd);
+	if (cmd_len == 2) {
+		if (!ft_strncmp(cmd, ">>", 3))
+			return (1);
+	}
+	else if (cmd_len == 1) {
+		if (!ft_strncmp(cmd, ">", 2))
+			return (1);
+		else if (!ft_strncmp(cmd, "<", 2))
+			return (1);
+	}
+	return (0);
 }
 
 t_redirection	stock_redir(char *cmd) {

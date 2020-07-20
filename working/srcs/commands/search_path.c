@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 14:02:44 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/17 16:26:49 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/20 18:50:03 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,9 @@ char			*search_path(char *command)
 	int		i;
 	
 	if (!ft_strncmp(command, "pwd", ft_strlen("pwd") + 1)
-		| !ft_strncmp(command, "env", ft_strlen("env") + 1)
-		| !ft_strncmp(command, "echo", ft_strlen("echo") + 1))
+		|| !ft_strncmp(command, "env", ft_strlen("env") + 1)
+		|| !ft_strncmp(command, "echo", ft_strlen("echo") + 1)
+		|| !ft_strncmp(command, "export", ft_strlen("export") + 1))
 		return (ft_strdup(command));
 	if (open(command, O_CLOEXEC) != -1)
 		return (ft_strdup(command));

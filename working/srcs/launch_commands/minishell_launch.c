@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 14:37:03 by franciszer        #+#    #+#             */
-/*   Updated: 2020/07/17 19:11:59 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/20 20:18:30 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,11 @@ int		minishell_launch(char **argv, int *save, int last)
 	int		fd[2];
 	t_redirection redir;
 
+	builtin_id = -1;
 	if (pipe(fd) < 0)
 		return (0);
 	g_exit_status = 0;
-	if ((builtin_id = is_builtin_parent(argv[0])) >= 0)
+	if (!(argv[1] && is_redir(argv[1])) && (builtin_id = is_builtin_parent(argv[0])) >= 0)
 		g_exit_status = launch_builtin_parent(builtin_id, argv);
 	else if (builtin_id == -2)
 		return (-1);
@@ -59,6 +60,11 @@ int		minishell_launch(char **argv, int *save, int last)
 	free(argv[0]);
 	argv[0] = tmp;
 	redir = stock_redir(table_to_string(argv));
+	if (!ft_strlen(redir.file) && (redir.in || redir.putendfile || redir.putfile)) {
+		g_exit_status = 2;
+		ft_perror(ERR_REDIR);
+		return (1);
+	}
 	cmd_to_rafter(&argv);
 	redirection(redir, &fd, save);
 	if (!(pid = fork()))

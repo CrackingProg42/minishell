@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 16:27:14 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/17 19:13:49 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/20 16:16:54 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 
 size_t	get_token(char *tokenStart, t_list **tokenlist)
 {
-	size_t	token_len;
+	size_t	token_lenv;
 	char	*token;
 	
-	if (isSpecialChar(tokenStart))
-		token_len = token_len_special(tokenStart);
+	if (is_special_char(tokenStart))
+		token_lenv = token_len_special(tokenStart);
 	else if (*tokenStart == '\'')
-		token_len = tokenLenSQuote(tokenStart);
+		token_lenv = token_len_s_quote(tokenStart);
 	else if (*tokenStart == '\"')
-		token_len = tokenLenDQuote(tokenStart);
+		token_lenv = token_len_d_quote(tokenStart);
 	else
-		token_len = tokenLen(tokenStart);
-	if (!(token = ft_strndup((const char*)tokenStart, token_len)))
+		token_lenv = token_len(tokenStart);
+	if (!(token = ft_strndup((const char*)tokenStart, token_lenv)))
 		return (0);
 	if (!add_to_token_list(token, tokenlist))
 		return (0);
-	return (token_len);
+	return (token_lenv);
 }
 
 int		add_to_token_list(char *token, t_list **tokenlist)

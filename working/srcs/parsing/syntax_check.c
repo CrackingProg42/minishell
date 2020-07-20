@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/01 18:43:38 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/19 18:04:34 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/20 16:14:01 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int		tokens_syntax_check(t_list *token_list)
 	while (nav)
 	{
 		str = (char*)nav->content;
-		if (!ft_strlen(str) || (isQuote(str[0]) && ft_strlen(str) == 1) ||\
+		if (!ft_strlen(str) || (is_quote(str[0]) && ft_strlen(str) == 1) ||\
 			!check_quotes(str))
 			return (0);
 		nav = nav->next;

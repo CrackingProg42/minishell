@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenLen.c                                         :+:      :+:    :+:   */
+/*   token_len.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/25 14:27:21 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/17 21:34:59 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/20 16:16:58 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-size_t	tokenLen(char *tokenStart)
+size_t	token_len(char *tokenStart)
 {
 	size_t	i;
 	size_t	len;
@@ -24,12 +24,12 @@ size_t	tokenLen(char *tokenStart)
 	prev_is_backslash = 0;
 	while (tokenStart[i])
 	{
-		if (((isQuote(tokenStart[i]) || isSpecialChar(&tokenStart[i])) || ft_isspace(tokenStart[i]) )&& !prev_is_backslash)
+		if (((is_quote(tokenStart[i]) || is_special_char(&tokenStart[i])) || ft_isspace(tokenStart[i]) )&& !prev_is_backslash)
 		{
 			if (tokenStart[i] == '\'')
-				return (len + tokenLenSQuote(&tokenStart[i]));
+				return (len + token_len_s_quote(&tokenStart[i]));
 			if (tokenStart[i] == '\"')
-				return (len + tokenLenSQuote(&tokenStart[i]));
+				return (len + token_len_s_quote(&tokenStart[i]));
 			return (len);
 		}
 		if (tokenStart[i] == '\\')
@@ -42,7 +42,7 @@ size_t	tokenLen(char *tokenStart)
 	return (len);
 }
 
-size_t	tokenLenSQuote(char *tokenStart)
+size_t	token_len_s_quote(char *tokenStart)
 {
 	size_t	i;
 	
@@ -51,14 +51,14 @@ size_t	tokenLenSQuote(char *tokenStart)
 	{
 		if (tokenStart[i] == '\'')
 		{
-			if (tokenStart[i + 1] && !isSpecialChar(&tokenStart[i + 1]) && tokenStart[i + 1] != ' ') 
+			if (tokenStart[i + 1] && !is_special_char(&tokenStart[i + 1]) && tokenStart[i + 1] != ' ') 
 			{
 				if (*tokenStart == '\'' && ++i)
-					return (i + tokenLenSQuote(&tokenStart[i]));
+					return (i + token_len_s_quote(&tokenStart[i]));
 				else if (*tokenStart == '\"' && ++i)
-					return (i + tokenLenDQuote(&tokenStart[i]));
+					return (i + token_len_d_quote(&tokenStart[i]));
 				else if (++i)
-					return (i + tokenLen(&tokenStart[i]));
+					return (i + token_len(&tokenStart[i]));
 			}
 			else
 				return (++i);
@@ -68,7 +68,7 @@ size_t	tokenLenSQuote(char *tokenStart)
 	return (i);
 }
 
-size_t	tokenLenDQuote(char *tokenStart)
+size_t	token_len_d_quote(char *tokenStart)
 {
 	size_t	i;
 	int		prev_is_backslash;
@@ -79,14 +79,14 @@ size_t	tokenLenDQuote(char *tokenStart)
 	{
 		if (tokenStart[i] == '\"' && !prev_is_backslash) 
 		{
-			if (tokenStart[i + 1] && !isSpecialChar(&tokenStart[i + 1]) && tokenStart[i + 1] != ' ') 
+			if (tokenStart[i + 1] && !is_special_char(&tokenStart[i + 1]) && tokenStart[i + 1] != ' ') 
 			{
 				if (*tokenStart == '\'' && ++i)
-					return (i + tokenLenSQuote(&tokenStart[i]));
+					return (i + token_len_s_quote(&tokenStart[i]));
 				else if (*tokenStart == '\"' && ++i)
-					return (i + tokenLenDQuote(&tokenStart[i]));
+					return (i + token_len_d_quote(&tokenStart[i]));
 				else if (++i)
-					return (i + tokenLen(&tokenStart[i]));
+					return (i + token_len(&tokenStart[i]));
 			}
 			else
 				return (++i);

@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsingUtils.c                                     :+:      :+:    :+:   */
+/*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: franciszer <franciszer@student.42.fr>      +#+  +:+       +#+        */
+/*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/25 14:28:17 by frthierr          #+#    #+#             */
-/*   Updated: 2020/06/26 10:24:14 by franciszer       ###   ########.fr       */
+/*   Updated: 2020/07/20 16:16:56 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		isQuote(char c)
+int		is_quote(char c)
 {
 	if (c == '\'' || c == '\"')
 		return (1);
 	return (0);
 }
 
-int		isSpecialChar(char *s)
+int		is_special_char(char *s)
 {
 	if (*s == '<' || *s == '>' || *s == ';'
 	|| *s == '|' || !ft_strncmp(">>", s, 2))

@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/03 11:20:05 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/17 14:36:00 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/20 18:50:17 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int		is_builtin_child(char *command)
 		return (BUILTIN_ENV);
 	else if (!ft_strncmp(command, "echo", ft_strlen("echo") + 1))
 		return (BUILTIN_ECHO);
+	else if (!ft_strncmp(command, "export", ft_strlen("export") + 1))
+		return (BUILTIN_EXPORT);
 	else
 		return (-1);
 }
@@ -46,6 +48,8 @@ int		launch_builtin_child(int builtin_id, char **argv)
 		return (builtin_env());
 	else if (builtin_id == BUILTIN_ECHO)
 		return (builtin_echo(argv));
+	else if (builtin_id == BUILTIN_EXPORT)
+		return (builtin_export(argv));
 	else
 		return (-1);
 }

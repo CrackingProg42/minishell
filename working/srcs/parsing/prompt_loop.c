@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 14:48:38 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/19 18:24:47 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/20 16:10:36 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,11 @@
 void	print_prompt()
 {
 	write(1, LIGHT_BLUE, ft_strlen(LIGHT_BLUE));
-	if (!open_pipe)
+	if (!g_open_pipe)
 		write(1, PROMPT_START_MSG, ft_strlen(PROMPT_START_MSG));
 	else
 		write(1, PIPE_START_MSG, ft_strlen(PIPE_START_MSG));
 	write(1, NC, ft_strlen(NC));
-}
-
-int		token_len(t_list *tokens)
-{
-	int 	i;
-
-	i = 0;
-	while (tokens->next)
-	{
-		tokens = tokens->next;
-		i++;
-	}
-	return i;
 }
 
 char 	*last_token(t_list *tokenlist)
@@ -46,6 +33,16 @@ char 	*last_token(t_list *tokenlist)
 			return (char*)nav->content;
 		nav = nav->next;
 	}
+	return (NULL);
+}
+
+char 	*first_token(t_list *tokenlist)
+{
+	t_list	*nav;
+
+	nav = tokenlist;
+	if (nav)
+		return (char*)nav->content;
 	return (NULL);
 }
 
@@ -67,9 +64,9 @@ t_list *prompt_loop(int depth)
 	tokenList = tokenize(line);
 	if ((!ft_strncmp(last_token(tokenList), "|", 2)) || (depth >= 1 && !last_token(tokenList))) {
 		if (depth == 0)
-			open_pipe = 1;
-		if (!ft_strncmp(last_token(tokenList), "|", 2) && ft_lstlen(tokenList) == 1)
-			pipe_error = 1;
+			g_open_pipe = 1;
+		if (!ft_strncmp(first_token(tokenList), "|", 2) && (ft_lstlen(tokenList) == 1 || depth > 1))
+			g_pipe_error = 1;
 		else
 		{
 			print_prompt();
@@ -77,9 +74,11 @@ t_list *prompt_loop(int depth)
 			ft_lstadd_back(&tokenList, tmp);
 		}
 		if (depth == 0)
-			open_pipe = 0;
+			g_open_pipe = 0;
 		return (tokenList);
 	}
+	if (!ft_strncmp(first_token(tokenList), "|", 2) && (ft_lstlen(tokenList) == 1 || depth > 1))
+		g_pipe_error = 1;
 	free(line);
 	return (tokenList);
 }

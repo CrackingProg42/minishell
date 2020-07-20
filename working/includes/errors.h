@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 14:12:42 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/19 18:07:28 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/20 19:53:13 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,7 @@
 # define ERR_TOO_MANY_ARGS "too many arguments"
 
 # define ERR_PIPE "minishell: Syntax error: \"|\" unexpected"
+
+# define ERR_REDIR "syntax error near unexpected token \"newline\""
 
 #endif

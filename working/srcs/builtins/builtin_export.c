@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frthierr <frthierr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/03 15:25:27 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/07 10:55:10 by frthierr         ###   ########.fr       */
+/*   Updated: 2020/07/20 17:23:27 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,9 @@ static int	new_env_var(char *var)
 	t_list	*new;
 	char	*var_copy;
 
-	if (!(env_list = ft_argv_to_list(g_env)))
-		return (1);
-	if (!(var_copy = ft_strdup(var)))
-		return (1);
-	if (!(new = ft_lstnew((void*)var_copy)))
+	if (!(env_list = ft_argv_to_list(g_env))
+		|| !(var_copy = ft_strdup(var))
+		|| !(new = ft_lstnew((void*)var_copy)))
 		return (1);
 	ft_lstadd_back(&env_list, new);
 	if (g_env_modified)
@@ -38,18 +36,12 @@ static int	export_check_syntax(char *arg)
 {
 	int		i;
 
-	i = 0;
+	i = 1;
 	if (!arg[0] || (!ft_isalpha(arg[0]) && arg[0] != '_'))
-	{
 		return (1);
-	}
-	i++;
 	while (arg[i] && arg[i] != '=' && arg[i] != '+')
-	{
-		if (!ft_isalnum(arg[i]) && arg[0] != '_')
+		if (!ft_isalnum(arg[i++]) && arg[0] != '_')
 			return (1);
-		i++;
-	}
 	if (arg[i] == '+' && arg[i + 1] == '=')
 		return (3);
 	if (!arg[i])
@@ -100,19 +92,12 @@ char		*added_var(char *arg)
 	if (!(key = ft_strndup(arg, i)))
 		return (NULL);
 	i += 2;
-	if (!(current_value = get_env(key)))
-	{
-		if (!(current_value = ft_strdup(&arg[i])))
-			return (NULL);
-	}
-	else
-	{
-		if (!(current_value = ft_strjoin_free(current_value, ft_strdup(&arg[i]))))
-			return (NULL);
-	}
-	if (!(key = ft_strjoin_free(key, "=")))
-		return (NULL);
-	if (!(current_value = ft_strjoin_2free(key, current_value)))
+	if ((!(current_value = get_env(key)) 
+		&& !(current_value = ft_strdup(&arg[i])))
+		|| (current_value 
+		&& !(current_value = ft_strjoin_free(current_value, ft_strdup(&arg[i]))))
+		|| !(key = ft_strjoin_free(key, "="))
+		|| !(current_value = ft_strjoin_2free(key, current_value)))
 		return (NULL);
 	free(arg);
 	return (current_value);
@@ -128,9 +113,7 @@ static int	export_envvar(int i, char **argv)
 	if ((syntax_check = export_check_syntax(argv[i])) == 1)
 		return (1);
 	if (syntax_check == 3 && !(argv[i] = added_var(argv[i])))
-	{
 		return (1);
-	}
 	else if (syntax_check == 2)
 		return (0);
 	if (!(var = ft_strndup(argv[i], ft_strlen_char(argv[i], '='))))
