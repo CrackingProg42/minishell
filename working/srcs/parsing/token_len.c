@@ -6,59 +6,59 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/25 14:27:21 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/20 16:16:58 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/22 17:20:11 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-size_t	token_len(char *tokenStart)
+size_t	token_len(char *tok_s)
 {
-	size_t	i;
-	size_t	len;
-	int		prev_is_backslash;
-	
+	t_size_t2	il;
+	int			p_back;
 
-	i = 0;
-	len = 0;
-	prev_is_backslash = 0;
-	while (tokenStart[i])
+	il.a = 0;
+	il.b = 0;
+	p_back = 0;
+	while (tok_s[il.a])
 	{
-		if (((is_quote(tokenStart[i]) || is_special_char(&tokenStart[i])) || ft_isspace(tokenStart[i]) )&& !prev_is_backslash)
+		if (((is_quote(tok_s[il.a]) || is_special_char(&tok_s[il.a]))
+			|| ft_isspace(tok_s[il.a])) && !p_back)
 		{
-			if (tokenStart[i] == '\'')
-				return (len + token_len_s_quote(&tokenStart[i]));
-			if (tokenStart[i] == '\"')
-				return (len + token_len_s_quote(&tokenStart[i]));
-			return (len);
+			if (tok_s[il.a] == '\'')
+				return (il.b + token_len_s_quote(&tok_s[il.a]));
+			if (tok_s[il.a] == '\"')
+				return (il.b + token_len_d_quote(&tok_s[il.a]));
+			return (il.b);
 		}
-		if (tokenStart[i] == '\\')
-			prev_is_backslash = 1;
+		if (tok_s[il.a] == '\\')
+			p_back = 1;
 		else
-			prev_is_backslash = 0;
-		i++;
-		len++;
+			p_back = 0;
+		il.a++;
+		il.b++;
 	}
-	return (len);
+	return (il.b);
 }
 
-size_t	token_len_s_quote(char *tokenStart)
+size_t	token_len_s_quote(char *tok_s)
 {
 	size_t	i;
-	
+
 	i = 1;
-	while (tokenStart[i])
+	while (tok_s[i])
 	{
-		if (tokenStart[i] == '\'')
+		if (tok_s[i] == '\'')
 		{
-			if (tokenStart[i + 1] && !is_special_char(&tokenStart[i + 1]) && tokenStart[i + 1] != ' ') 
+			if (tok_s[i + 1] &&
+				!is_special_char(&tok_s[i + 1]) && tok_s[i + 1] != ' ')
 			{
-				if (*tokenStart == '\'' && ++i)
-					return (i + token_len_s_quote(&tokenStart[i]));
-				else if (*tokenStart == '\"' && ++i)
-					return (i + token_len_d_quote(&tokenStart[i]));
+				if (*tok_s == '\'' && ++i)
+					return (i + token_len_s_quote(&tok_s[i]));
+				else if (*tok_s == '\"' && ++i)
+					return (i + token_len_d_quote(&tok_s[i]));
 				else if (++i)
-					return (i + token_len(&tokenStart[i]));
+					return (i + token_len(&tok_s[i]));
 			}
 			else
 				return (++i);
@@ -68,44 +68,53 @@ size_t	token_len_s_quote(char *tokenStart)
 	return (i);
 }
 
-size_t	token_len_d_quote(char *tokenStart)
+size_t	token_len_d_quote_ret(size_t i, char *tok_s)
+{
+	if (tok_s[i + 1] && !is_special_char(&tok_s[i + 1])
+		&& tok_s[i + 1] != ' ')
+	{
+		if (*tok_s == '\'' && ++i)
+			return (i + token_len_s_quote(&tok_s[i]));
+		else if (*tok_s == '\"' && ++i)
+			return (i + token_len_d_quote(&tok_s[i]));
+		else if (++i)
+			return (i + token_len(&tok_s[i]));
+	}
+	else
+		return (++i);
+	return (0);
+}
+
+size_t	token_len_d_quote(char *tok_s)
 {
 	size_t	i;
-	int		prev_is_backslash;
-	
+	int		p_back;
+	size_t	ret;
+
 	i = 1;
-	prev_is_backslash = 0;
-	while (tokenStart[i])
+	p_back = 0;
+	while (tok_s[i])
 	{
-		if (tokenStart[i] == '\"' && !prev_is_backslash) 
+		if (tok_s[i] == '\"' && !p_back)
 		{
-			if (tokenStart[i + 1] && !is_special_char(&tokenStart[i + 1]) && tokenStart[i + 1] != ' ') 
-			{
-				if (*tokenStart == '\'' && ++i)
-					return (i + token_len_s_quote(&tokenStart[i]));
-				else if (*tokenStart == '\"' && ++i)
-					return (i + token_len_d_quote(&tokenStart[i]));
-				else if (++i)
-					return (i + token_len(&tokenStart[i]));
-			}
-			else
-				return (++i);
+			if ((ret = token_len_d_quote_ret(i, tok_s)))
+				return (ret);
 		}
-		if (tokenStart[i] == '\\')
-			prev_is_backslash = 1;
+		if (tok_s[i] == '\\')
+			p_back = 1;
 		else
-			prev_is_backslash = 0;
+			p_back = 0;
 		i++;
 	}
 	return (i);
 }
 
-size_t	token_len_special(char *token_start)
+size_t	token_len_special(char *tok_s)
 {
-	if (token_start[0] == '>' && token_start[1] && token_start[1] == '>')
+	if (tok_s[0] == '>' && tok_s[1] && tok_s[1] == '>')
 		return (2);
-	else if (*token_start == '|' || *token_start == '>' || *token_start == '<' ||
-			*token_start == ';')
+	else if (*tok_s == '|' || *tok_s == '>' || *tok_s == '<' ||
+			*tok_s == ';')
 		return (1);
 	return (0);
 }

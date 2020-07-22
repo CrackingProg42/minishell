@@ -6,23 +6,31 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/01 18:43:38 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/20 16:14:01 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/22 16:52:48 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int 	check_quotes(char *cmd) {
+int		check_quotes(char *cmd)
+{
 	int				i;
 	t_quotes		quote;
+	int				p_back;
 
+	p_back = 0;
 	quote.q = -1;
 	quote.dq = -1;
 	i = -1;
-	while (cmd[++i]) 
+	while (cmd[++i])
 	{
-		cmd[i] == '\'' && quote.dq == -1 ? quote.q *= -1 : 0;
-		cmd[i] == '\"' && quote.q == -1 ? quote.dq *= -1 : 0;
+		cmd[i] == '\'' && quote.dq == -1 &&
+			(!p_back || quote.q == 1) ? quote.q *= -1 : 0;
+		cmd[i] == '\"' && quote.q == -1 && !p_back ? quote.dq *= -1 : 0;
+		if (cmd[i] == '\\')
+			p_back = 1;
+		else
+			p_back = 0;
 	}
 	if (quote.q == -1 && quote.dq == -1)
 		return (1);
@@ -48,8 +56,8 @@ int		tokens_syntax_check(t_list *token_list)
 
 int		pipes_syntax_check(t_list *token_list)
 {
-	if (ft_lstlen(token_list) == 1 && !ft_strncmp(last_token(token_list), "|", 2))
+	if (ft_lstlen(token_list) == 1 &&
+		!ft_strncmp(last_token(token_list), "|", 2))
 		return (0);
 	return (1);
 }
-

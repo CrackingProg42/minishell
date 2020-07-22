@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 10:36:09 by franciszer        #+#    #+#             */
-/*   Updated: 2020/07/17 15:28:30 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/22 16:46:11 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	print_argv(char **argv)
 	i = 0;
 	while (argv[i])
 	{
-		ft_printf("%d: |%s|\n",i, argv[i]);
+		ft_printf("%d: |%s|\n", i, argv[i]);
 		i++;
 	}
 }

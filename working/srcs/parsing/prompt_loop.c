@@ -6,13 +6,13 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 14:48:38 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/20 16:10:36 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/22 01:14:20 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_prompt()
+void	print_prompt(void)
 {
 	write(1, LIGHT_BLUE, ft_strlen(LIGHT_BLUE));
 	if (!g_open_pipe)
@@ -22,11 +22,11 @@ void	print_prompt()
 	write(1, NC, ft_strlen(NC));
 }
 
-char 	*last_token(t_list *tokenlist)
+char	*last_token(t_list *token_list)
 {
 	t_list	*nav;
 
-	nav = tokenlist;
+	nav = token_list;
 	while (nav)
 	{
 		if (!nav->next)
@@ -36,21 +36,40 @@ char 	*last_token(t_list *tokenlist)
 	return (NULL);
 }
 
-char 	*first_token(t_list *tokenlist)
+char	*first_token(t_list *token_list)
 {
 	t_list	*nav;
 
-	nav = tokenlist;
+	nav = token_list;
 	if (nav)
 		return (char*)nav->content;
 	return (NULL);
 }
 
-t_list *prompt_loop(int depth)
+t_list	*pipe_handle(int depth, t_list **token_list)
 {
-	char 	*line;
 	t_list	*tmp;
-	t_list 	*tokenList;
+
+	if (depth == 0)
+		g_open_pipe = 1;
+	if (!ft_strncmp(first_token((*token_list)), "|", 2)
+		&& (ft_lstlen((*token_list)) == 1 || depth > 1))
+		g_pipe_error = 1;
+	else
+	{
+		print_prompt();
+		tmp = prompt_loop(depth + 1);
+		ft_lstadd_back(token_list, tmp);
+	}
+	if (depth == 0)
+		g_open_pipe = 0;
+	return ((*token_list));
+}
+
+t_list	*prompt_loop(int depth)
+{
+	char	*line;
+	t_list	*token_list;
 	int		ret_value;
 
 	g_p_stop_sig = 0;
@@ -61,24 +80,13 @@ t_list *prompt_loop(int depth)
 		exit(0);
 		return (NULL);
 	}
-	tokenList = tokenize(line);
-	if ((!ft_strncmp(last_token(tokenList), "|", 2)) || (depth >= 1 && !last_token(tokenList))) {
-		if (depth == 0)
-			g_open_pipe = 1;
-		if (!ft_strncmp(first_token(tokenList), "|", 2) && (ft_lstlen(tokenList) == 1 || depth > 1))
-			g_pipe_error = 1;
-		else
-		{
-			print_prompt();
-			tmp = prompt_loop(depth + 1);
-			ft_lstadd_back(&tokenList, tmp);
-		}
-		if (depth == 0)
-			g_open_pipe = 0;
-		return (tokenList);
-	}
-	if (!ft_strncmp(first_token(tokenList), "|", 2) && (ft_lstlen(tokenList) == 1 || depth > 1))
+	token_list = tokenize(line);
+	if ((!ft_strncmp(last_token(token_list), "|", 2))
+		|| (depth >= 1 && !last_token(token_list)))
+		return (pipe_handle(depth, &token_list));
+	if (!ft_strncmp(first_token(token_list), "|", 2)
+		&& (ft_lstlen(token_list) == 1 || depth > 1))
 		g_pipe_error = 1;
 	free(line);
-	return (tokenList);
+	return (token_list);
 }

@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 13:40:30 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/20 18:57:20 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/22 19:23:04 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,49 @@ int					g_open_pipe;
 int					g_pipe_error;
 
 /*
+**		______STRUCTS______
+*/
+
+typedef struct		s_redirection
+{
+	int				in;
+	int				putfile;
+	int				putendfile;
+	char			*file;
+}					t_redirection;
+
+typedef struct		s_quotes
+{
+	int				q;
+	int				dq;
+}					t_quotes;
+
+typedef struct		s_int2
+{
+	int				a;
+	int				b;
+}					t_int2;
+
+typedef struct		s_size_t2
+{
+	int				a;
+	int				b;
+}					t_size_t2;
+
+typedef struct		s_expand_tk_dt
+{
+	t_int2		ij;
+	int			pb;
+	char		*tmp;
+	char		*final_token;
+	t_quotes	qt;
+}					s_expand_tk_dt;
+
+/*
 ** ________FUNCTIONS________
 */
 
 void				minishell_start();
-char				*table_to_string(char **table);
 
 /*
 **       ______PARSING_AND_TOKENIZATION_____
@@ -83,12 +121,23 @@ int					pipes_syntax_check(t_list *token_list);
 char				*last_token(t_list *tokenlist);
 
 /*
+**		_____MINISHELL_LAUNCH_____
+*/
+
+int					path_searching(char **argv, char **tmp);
+int					redir_error(t_redirection redir);
+void				parent(pid_t *pid, int *save, int fd[2]);
+void				child(t_int2 save_last, t_redirection redir,
+							char ***argv, int fd[2]);
+int					preprocess_minishell(char ***argv);
+
+/*
 **       ______TOKEN_EXPANSION_____
 */
 
 char				*get_env(char *key);
 int					ft_strlen_key(char *key_start);
-char				*expand_env(char *token, char *final_token, int *i, int *j);
+char				*eev(char *token, char *final_token, int *i, int *j);
 void				*get_final_token(void *content);
 t_list				*expand_tokens(t_list *token_list);
 char				*expand_token_quote(char *token);
@@ -122,8 +171,23 @@ int					builtin_exit(char **args);
 int					builtin_pwd();
 int					builtin_env();
 int					builtin_echo(char **argv);
-int					builtin_export(char **argv);
 int					builtin_unset(char **argv);
+
+/*
+**		__EXPORT__
+*/
+
+int					new_env_var(char *var);
+int					export_check_syntax(char *arg);
+int					modify_env_var_loop(t_list **env_list, char *var,
+										char **argv, int index);
+int					modify_env_var(int index, char **argv, char *var);
+char				*added_var(char *arg);
+int					export_envvar(int i, char **argv);
+int					all_env_written(char *env_written, size_t len);
+void				print_export_loop(char **env_written, size_t len);
+int					print_export(void);
+int					builtin_export(char **argv);
 
 /*
 **		_____SIGNAL_HANDLING_____
@@ -139,34 +203,25 @@ void				signal_default();
 
 void				print_tokens(t_list *tokenlist);
 void				print_argv(char **argv);
-char				*remove_quotes(char *str);
-
-/*
-**		______STRUCTS______
-*/
-
-typedef struct		s_redirection
-{
-	int				in;
-	int				putfile;
-	int				putendfile;
-	char			*file;
-}					t_redirection;
-
-typedef struct		s_quotes
-{
-	int				q;
-	int				dq;
-}					t_quotes;
 
 /*
 **		_____REDIRECTION_____
 */
 
-t_redirection		stock_redir(char *cmd);
+t_redirection		stock_redir(char **cmd);
 int					redirection(t_redirection redir, int (*pipefd)[2],
 								int *save);
 void				cmd_to_rafter(char ***cmd);
 int					is_redir(char *cmd);
+
+/*
+**		_____EXPAND_TOKEN_____
+*/
+
+char				*init_expand(t_quotes *qt, t_int2 *ij, int *pb, char *tk);
+int					if_loop(char *tk, t_int2 *ij, t_quotes *qt, int *pb);
+char				*elif_loop(char **final_token, char **tmp);
+void				else_loop(char *tk, char **final_token, t_int2 *ij, t_quotes *qt);
+int					elif_test(char *tk, t_quotes qt, t_int2 ij);
 
 #endif

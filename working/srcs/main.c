@@ -6,26 +6,30 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 13:39:32 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/20 16:13:33 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/22 19:21:42 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	minishell_start()
+void	clear_and_throw(char *err, t_list **to_clear)
+{
+	ft_lstclear(to_clear, free);
+	ft_perror(err);
+}
+
+void	minishell_start(void)
 {
 	t_list	*token_list;
 	t_list	*command_list;
-	
+
 	if ((token_list = prompt_loop(0)))
 	{
 		if (!tokens_syntax_check(token_list))
-		{
-			ft_lstclear(&token_list, free);
-			ft_perror(ERR_UNFINISHED_QUOTE);
-		}
+			clear_and_throw(ERR_UNFINISHED_QUOTE, &token_list);
 		else if (!pipes_syntax_check(token_list) || g_pipe_error)
 		{
+			g_exit_status = 2;
 			g_pipe_error = 0;
 			ft_lstclear(&token_list, free);
 			ft_perror(ERR_PIPE);
@@ -42,7 +46,7 @@ void	minishell_start()
 		return ;
 }
 
-int	main(int argc, char **argv, char **env)
+int		main(int argc, char **argv, char **env)
 {
 	g_open_pipe = 0;
 	g_pipe_error = 0;
@@ -62,5 +66,5 @@ int	main(int argc, char **argv, char **env)
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, sigquit_handler);
 	}
-	return (0);	
+	return (0);
 }

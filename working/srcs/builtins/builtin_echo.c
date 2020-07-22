@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/03 14:44:06 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/17 18:03:47 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/21 16:26:55 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int		builtin_echo(char **argv)
 {
 	int		i;
 	char	option_n;
-	
+
 	i = 1;
 	option_n = 0;
 	if (!ft_strncmp(argv[1], "-n", 3))

@@ -6,140 +6,114 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 16:28:06 by qfeuilla          #+#    #+#             */
-/*   Updated: 2020/07/20 20:06:03 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/22 15:55:47 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int				len_to_space(char *str) {
-	int		i;
-
-	i = 0;
-	while (*str && *str++ != ' ')
-		i++;
-	return (i);
-}
-
-char			*get_word(char *str) {
-	int 	i;
-	char	*new;
-
-	i = len_to_space(str);
-	new = (char *)malloc(sizeof(char) * (i + 1));
-	i = -1;
-	while (str[i] && str[++i] != ' ')
-		new[i] = str[i];
-	new[i] = '\0';
-	return (new);
-}
-
-int				is_redir(char *cmd) {
+int				is_redir(char *cmd)
+{
 	int	cmd_len;
 
 	cmd_len = ft_strlen(cmd);
-	if (cmd_len == 2) {
+	if (cmd_len == 2)
+	{
 		if (!ft_strncmp(cmd, ">>", 3))
 			return (1);
 	}
-	else if (cmd_len == 1) {
+	else if (cmd_len == 1)
+	{
 		if (!ft_strncmp(cmd, ">", 2))
-			return (1);
+			return (2);
 		else if (!ft_strncmp(cmd, "<", 2))
-			return (1);
+			return (3);
 	}
 	return (0);
 }
 
-t_redirection	stock_redir(char *cmd) {
+t_redirection	stock_redir(char **argv)
+{
 	int				i;
-	t_quotes		quote;
 	t_redirection	redir;
+	int				type;
 
-	quote.q = -1;
-	quote.dq = -1;
 	i = -1;
 	redir.putfile = 0;
 	redir.putendfile = 0;
 	redir.in = 0;
 	redir.file = 0;
-	while (cmd[++i]) {
-		cmd[i] == '\'' && quote.dq == -1 ? quote.q *= -1 : 0;
-		cmd[i] == '\"' && quote.q == -1 ? quote.dq *= -1 : 0;
-		if ((cmd[i] == '<' || cmd[i] == '>') && quote.q == -1 && quote.dq == -1) {
-			if (cmd[i] == '>' && cmd[i + 1] == '>' && cmd[i + 2] != '>')
+	while (argv[++i])
+	{
+		if ((type = is_redir(argv[i])))
+		{
+			if (type == 1)
 				redir.putendfile = 1;
-			else if (cmd[i] == '>' && cmd[i + 2] != '>')
+			else if (type == 2)
 				redir.putfile = 1;
-			else if (cmd[i] == '<')
+			else if (type == 3)
 				redir.in = 1;
-			i++;
-			if (cmd[i] == '>')
-				i++;
-			while (cmd[i] == ' ')
-				i++;
-			redir.file = get_word(&cmd[i]);
+			if (argv[i + 1])
+				redir.file = ft_strdup(argv[i + 1]);
 			return (redir);
 		}
 	}
 	return (redir);
 }
 
-int		redirection(t_redirection redir, int (*pipefd)[2], int *save) {
+int				redirection(t_redirection red, int (*pipefd)[2], int *save)
+{
 	int		fd;
 
-	if (redir.file == NULL)
+	if (red.file == NULL)
 		return (0);
-	if (redir.in) {
-		if ((fd = open(redir.file, O_RDONLY)) == -1)
-			return (-1);
-		*save = fd;
-	}
-	if (redir.putendfile) {
-		if ((fd = open(redir.file, O_RDWR | O_CREAT | O_APPEND , 0666)) == -1)
-			return (-1);
-		close((*pipefd)[1]);
-		(*pipefd)[1] = fd;
-	}
-	if (redir.putfile) {
-		if ((fd = open(redir.file, O_RDWR | O_CREAT | O_TRUNC, 0666)) == -1)
+	if (red.in && ((fd = open(red.file, O_RDONLY)) == -1
+		&& (*save = fd || !*save)))
+		return (-1);
+	if (red.putendfile)
+	{
+		if ((fd = open(red.file, O_RDWR | O_CREAT | O_APPEND, 0666)) == -1)
 			return (-1);
 		close((*pipefd)[1]);
 		(*pipefd)[1] = fd;
 	}
-	free(redir.file);
-	if (redir.file && redir.in == 0 && redir.putfile == 0 && redir.putendfile == 0)
+	if (red.putfile)
+	{
+		if ((fd = open(red.file, O_RDWR | O_CREAT | O_TRUNC, 0666)) == -1)
+			return (-1);
+		close((*pipefd)[1]);
+		(*pipefd)[1] = fd;
+	}
+	free(red.file);
+	if (red.file && red.in == 0 && red.putfile == 0 && red.putendfile == 0)
 		return (1);
 	return (0);
 }
 
-void cmd_to_rafter(char ***cmd) {
-	int 	i;
+void			cmd_to_rafter(char ***cmd)
+{
+	int		i;
+	int		type;
+	char	*tmp1;
+	char	*tmp2;
 
 	i = 0;
 	while ((*cmd)[i])
-    {
-		if (!ft_strncmp((*cmd)[i], ">", 1) 
-			|| !ft_strncmp((*cmd)[i], "<", 2)) 
-        {
+	{
+		if ((type = is_redir((*cmd)[i])))
+		{
+			tmp1 = (*cmd)[i];
+			tmp2 = (*cmd)[i + 1];
+			while ((*cmd)[i + 2])
+			{
+				(*cmd)[i] = (*cmd)[i + 2];
+				i++;
+			}
 			(*cmd)[i] = NULL;
+			free(tmp1);
+			free(tmp2);
 			break ;
 		}
 		i++;
 	}
 }
-
-char			*table_to_string(char **table) {
-    char    *str;
-    int     i;
-
-    i = 0;
-    str = malloc(1);
-	if (table[i])
-    	str = ft_strjoin_free(str, table[i++]);
-    while (table[i]) {
-		str = ft_strjoin_free(str, " ");
-        str = ft_strjoin_free(str, table[i++]);
-	}
-    return str;
-} 

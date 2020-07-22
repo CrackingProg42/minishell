@@ -6,17 +6,11 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/06 15:10:26 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/17 16:07:00 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/22 14:36:24 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// void sigint_handler(int signo)
-// {
-// 	ft_printf("hello\n");
-// 	//minishell_start();
-// }
 
 void	sigquit_handler(int sig)
 {
@@ -37,7 +31,7 @@ void	sigint_handler(int sig)
 	}
 }
 
-void	signal_default()
+void	signal_default(void)
 {
 	signal(SIGINT, SIG_DFL);
 }

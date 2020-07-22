@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/15 10:16:23 by qfeuilla          #+#    #+#             */
-/*   Updated: 2020/07/17 16:07:09 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/22 02:55:17 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,8 @@ t_list	*copy_command_p(t_list *command_start)
 	command_copy = NULL;
 	while (nav && nav->content && ((char*)nav->content)[0] != '|')
 	{
-		if (!(token_copy = ft_strdup((char*)nav->content)))
-			return (NULL);
-		if (!(node_copy = ft_lstnew(token_copy)))
+		if (!(token_copy = ft_strdup((char*)nav->content))
+			|| !(node_copy = ft_lstnew(token_copy)))
 			return (NULL);
 		if (!command_copy)
 			command_copy = node_copy;
@@ -43,16 +42,15 @@ t_list	*get_command_list_p(t_list *token_list)
 	t_list	*nav;
 	t_list	*new_node;
 	t_list	*new_node_content;
-	
+
 	nav = token_list;
 	command_list = NULL;
 	while (nav)
 	{
 		if (nav->content && ((char*)nav->content)[0] != '|')
 		{
-			if (!(new_node_content = copy_command_p(nav)))
-				return (NULL);
-			if (!(new_node = ft_lstnew(new_node_content)))
+			if (!(new_node_content = copy_command_p(nav))
+				|| !(new_node = ft_lstnew(new_node_content)))
 				return (NULL);
 			if (!command_list)
 				command_list = new_node;
@@ -67,12 +65,12 @@ t_list	*get_command_list_p(t_list *token_list)
 	return (command_list);
 }
 
-int		execute_pipes(t_list **commandlist) 
+int		execute_pipes(t_list **commandlist)
 {
 	t_list *unpiped_commandlist;
 	t_list *nav;
 	t_list *tmp_list;
-	
+
 	nav = *commandlist;
 	while (nav)
 	{

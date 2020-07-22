@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 14:37:03 by franciszer        #+#    #+#             */
-/*   Updated: 2020/07/20 20:18:30 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/22 17:19:20 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,11 @@ void	sigtest(int sig)
 		g_exit_status = 130;
 }
 
-char 	**copy_argv(char **argv) {
-	int i;
-	int j;
-	char **argv2;
+char	**copy_argv(char **argv)
+{
+	int		i;
+	int		j;
+	char	**argv2;
 
 	i = 0;
 	j = -1;
@@ -35,73 +36,28 @@ char 	**copy_argv(char **argv) {
 
 int		minishell_launch(char **argv, int *save, int last)
 {
-	pid_t	pid;
-	char	*tmp;
-	int		builtin_id;
-	int		fd[2];
-	t_redirection redir;
+	pid_t			pid;
+	int				ret;
+	int				fd[2];
+	t_redirection	redir;
+	t_int2			save_last;
 
-	builtin_id = -1;
 	if (pipe(fd) < 0)
 		return (0);
-	g_exit_status = 0;
-	if (!(argv[1] && is_redir(argv[1])) && (builtin_id = is_builtin_parent(argv[0])) >= 0)
-		g_exit_status = launch_builtin_parent(builtin_id, argv);
-	else if (builtin_id == -2)
-		return (-1);
-	if (builtin_id != -1)
+	redir = stock_redir(argv);
+	if (redir_error(redir))
 		return (1);
-	if (!(tmp = search_path(argv[0])))
-	{
-		g_exit_status = 127;
-		ft_perror(ERR_UNKNOWN_COMMAND);
-		return (1);
-	}
-	free(argv[0]);
-	argv[0] = tmp;
-	redir = stock_redir(table_to_string(argv));
-	if (!ft_strlen(redir.file) && (redir.in || redir.putendfile || redir.putfile)) {
-		g_exit_status = 2;
-		ft_perror(ERR_REDIR);
-		return (1);
-	}
 	cmd_to_rafter(&argv);
+	if ((ret = preprocess_minishell(&argv)))
+		return (ret);
 	redirection(redir, &fd, save);
+	save_last.a = *save;
+	save_last.b = last;
 	if (!(pid = fork()))
-	{
-		dup2(*save, 0);
-		if (!last || redir.putfile || redir.putendfile)
-			dup2(fd[1], 1);
-		close(fd[0]);
-		signal(SIGINT, sigint_handler);
-		signal(SIGQUIT, SIG_DFL);
-		if ((builtin_id = is_builtin_child(argv[0])) >= 0) {
-			g_exit_status = launch_builtin_child(builtin_id, argv);
-			fclose(stdout);
-			exit(g_exit_status);
-		}
-		else if (execve(argv[0], argv, g_env) == -1)
-			ft_perror(ERR_EXECVE);
-	}
+		child(save_last, redir, &argv, fd);
 	else if (pid < 0)
 		ft_perror(ERR_PID);
 	else
-	{
-		waitpid(pid, &g_exit_status, 0);
-		*save = fd[0];
-		close(fd[1]);
-		if (WIFEXITED(g_exit_status))
-			g_exit_status = WEXITSTATUS(g_exit_status);
-		else if (WIFSIGNALED(g_exit_status))
-		{
-			g_p_stop_sig = 1;
-			if (WTERMSIG(g_exit_status) == SIGINT)
-				g_exit_status = 130;
-			if (WTERMSIG(g_exit_status) == SIGQUIT)
-				g_exit_status = 131;
-		}
-		else
-			g_exit_status = 0;
-	}
+		parent(&pid, save, fd);
 	return (1);
 }

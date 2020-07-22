@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/25 14:28:17 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/20 16:16:56 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/22 01:04:46 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,5 @@ int		is_special_char(char *s)
 	|| *s == '|' || !ft_strncmp(">>", s, 2))
 		return (1);
 	else
-		return (0);	
+		return (0);
 }

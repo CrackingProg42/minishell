@@ -6,13 +6,13 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 16:21:03 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/18 18:54:34 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/21 19:56:39 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	free_command(t_list	*command)
+static void		free_command(t_list *command)
 {
 	t_list	*token_list;
 
@@ -20,7 +20,7 @@ static void	free_command(t_list	*command)
 	ft_lstclear(&token_list, free);
 }
 
-void		free_commandlist(t_list **commandlist)
+void			free_commandlist(t_list **commandlist)
 {
 	t_list	*nav;
 	t_list	*tmp;
@@ -40,7 +40,8 @@ void		free_commandlist(t_list **commandlist)
 	}
 }
 
-void		exit_minishell(int action, t_list *token_list, t_list **commandlist, char ***args)
+void			exit_minishell(int action, t_list *token_list,
+								t_list **commandlist, char ***args)
 {
 	static t_list	*to_free;
 	static t_list	**list_to_free;
@@ -65,5 +66,5 @@ void		exit_minishell(int action, t_list *token_list, t_list **commandlist, char 
 			free_argv(*args_to_free, INT_MAX);
 	}
 	system(" minishell");
-	exit (g_exit_status);
+	exit(g_exit_status);
 }

@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 14:12:42 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/20 19:53:13 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/22 14:04:17 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,11 @@
 
 # define ERR_TOO_MANY_ARGS "too many arguments"
 
-# define ERR_PIPE "minishell: Syntax error: \"|\" unexpected"
+# define ERR_PIPE "minishell: Syntax error: `|\' unexpected"
 
-# define ERR_REDIR "syntax error near unexpected token \"newline\""
+# define ERR_REDIR "syntax error near unexpected token `newline\'"
+# define ERR_REDIR_2 "syntax error near unexpected token `>\'"
+# define ERR_REDIR_1 "syntax error near unexpected token `>>\'"
+# define ERR_REDIR_3 "syntax error near unexpected token `<\'"
 
 #endif
