@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 13:39:32 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/22 19:21:42 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/24 22:30:21 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int		main(int argc, char **argv, char **env)
 {
 	g_open_pipe = 0;
 	g_pipe_error = 0;
+	g_exit_status = 0;
 	if (argc > 1 || argv[1])
 	{
 		ft_perror(ERR_TOO_MANY_ARGS);
