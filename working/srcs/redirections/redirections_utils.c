@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 16:28:06 by qfeuilla          #+#    #+#             */
-/*   Updated: 2020/07/22 15:55:47 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/25 00:03:16 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,22 @@ int				is_redir(char *cmd)
 			return (2);
 		else if (!ft_strncmp(cmd, "<", 2))
 			return (3);
+	}
+	return (0);
+}
+
+int				is_dir(t_redirection redir)
+{
+	struct stat		path_stat;
+	char			*tmp;
+
+	stat(redir.file, &path_stat);
+	if (S_ISDIR(path_stat.st_mode))
+	{
+		tmp = ft_strjoin(ERR_REDIR_IS_DIR_P1, redir.file);
+		tmp = ft_strjoin_free(tmp, ERR_REDIR_IS_DIR_P2);
+		ft_perror(tmp);
+		free(tmp);
 	}
 	return (0);
 }

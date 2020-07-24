@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 13:40:30 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/24 23:40:46 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/25 00:02:48 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,6 +214,7 @@ int					redirection(t_redirection redir, int (*pipefd)[2],
 								int *save);
 void				cmd_to_rafter(char ***cmd);
 int					is_redir(char *cmd);
+int					is_dir(t_redirection redir);
 
 /*
 **		_____EXPAND_TOKEN_____

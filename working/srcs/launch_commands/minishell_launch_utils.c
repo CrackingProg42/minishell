@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 00:58:12 by qfeuilla          #+#    #+#             */
-/*   Updated: 2020/07/24 23:58:53 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/25 00:02:55 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,6 @@ int		path_searching(char **argv, char **tmp)
 		g_exit_status = 127;
 		ft_perror(ERR_UNKNOWN_COMMAND);
 		return (1);
-	}
-	return (0);
-}
-
-int		is_dir(t_redirection redir) {
-	struct stat path_stat;
-	char *tmp;
-	
-	stat(redir.file, &path_stat);
-	if (S_ISDIR(path_stat.st_mode)) {
-		tmp = ft_strjoin(ERR_REDIR_IS_DIR_P1, redir.file);
-		tmp = ft_strjoin_free(tmp, ERR_REDIR_IS_DIR_P2);
-		ft_perror(tmp);
-		free(tmp);
 	}
 	return (0);
 }
@@ -57,7 +43,8 @@ int		redir_error(t_redirection redir)
 			ft_perror(ERR_REDIR);
 		return (1);
 	}
-	else if (is_dir(redir)) {
+	else if (is_dir(redir))
+	{
 		return (1);
 	}
 	return (0);
