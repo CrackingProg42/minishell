@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/30 11:57:50 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/22 19:25:57 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/24 23:03:45 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,8 @@ void	*get_final_token(void *content)
 
 	str = ((char*)content);
 	str = expand_token_quote(str);
-	if (str[0] == '\0')
-	{
-		free(str);
+	if (!str)
 		return (NULL);
-	}
 	return (str);
 }
 

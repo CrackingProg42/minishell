@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/01 18:43:38 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/22 16:52:48 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/24 22:46:31 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		check_quotes(char *cmd)
 		cmd[i] == '\'' && quote.dq == -1 &&
 			(!p_back || quote.q == 1) ? quote.q *= -1 : 0;
 		cmd[i] == '\"' && quote.q == -1 && !p_back ? quote.dq *= -1 : 0;
-		if (cmd[i] == '\\')
+		if (cmd[i] == '\\' && p_back == 0)
 			p_back = 1;
 		else
 			p_back = 0;
