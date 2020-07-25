@@ -6,11 +6,38 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/29 16:49:23 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/22 18:56:58 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/07/25 19:30:58 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*preprocess_env(char *env_val)
+{
+	char	*preproc_env;
+	int		i;
+	int		j;
+	int		prev_is_space;
+
+	if (!env_val)
+		return (NULL);
+	i = -1;
+	j = 0;
+	prev_is_space = 0;
+	preproc_env = (char *)malloc(ft_strlen(env_val) * sizeof(char));
+	while (env_val[++i])
+	{
+		if (!(env_val[i] == ' ' && prev_is_space == 1))
+			preproc_env[j++] = env_val[i];
+		if (env_val[i] == ' ')
+			prev_is_space = 1;
+		else
+			prev_is_space = 0;
+	}
+	preproc_env[j] = '\0';
+	free(env_val);
+	return (preproc_env);
+}
 
 char	*get_env(char *key)
 {
@@ -31,7 +58,7 @@ char	*get_env(char *key)
 		{
 			if (!(value = ft_strdup(&g_env[i][ft_strlen(key) + 1])))
 				return (NULL);
-			return (value);
+			return (preprocess_env(value));
 		}
 		i++;
 	}
