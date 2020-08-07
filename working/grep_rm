@@ -1,7 +1,0 @@
-	@rm -rf logs
-	@rm -rf ${NAME}
-	@rm -rf logs
-	@rm -rf ${OBJECTS}
-	@rm -rf test_exec
-	@rm -rf ${LIB}
-	@rm -rf $(NAME)
