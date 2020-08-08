@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 14:02:44 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/21 19:45:14 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/08/08 13:48:29 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,6 @@ char			*search_path(char *command)
 
 	if (is_custom(command))
 		return (ft_strdup(command));
-	if (open(command, O_CLOEXEC) != -1)
-		return (ft_strdup(command));
-	if ((command_path = search_relativepath(command)))
-		return (command_path);
 	if (!(path = get_env("PATH"))
 		|| !(path_array = ft_split(path, ':')))
 		return (NULL);
@@ -91,5 +87,9 @@ char			*search_path(char *command)
 		free(command_path);
 		i++;
 	}
+	if (open(command, O_CLOEXEC) != -1)
+		return (ft_strdup(command));
+	if ((command_path = search_relativepath(command)))
+		return (command_path);
 	return (return_free_av(NULL, &path_array, &path));
 }

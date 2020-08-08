@@ -123,18 +123,18 @@ exec_test 'echo "$T1TEST"'
 # ENV EXPANSIONS
 ENV_SHOW="env | sort | grep -v SHLVL | grep -v _="
 EXPORT_SHOW="export | sort | grep -v SHLVL | grep -v _= | grep -v OLDPWD"
-#exec_test 'export ='
-#exec_test 'export 1TEST= ;' $ENV_SHOW
-#exec_test 'export TEST ;' $EXPORT_SHOW
-#exec_test 'export ""="" ; ' $ENV_SHOW
-#exec_test 'export TES=T="" ;' $ENV_SHOW
-#exec_test 'export TE+S=T="" ;' $ENV_SHOW
-#exec_test 'export TEST=LOL ; echo $TEST ;' $ENV_SHOW
-#exec_test 'export TEST=LOL ; echo $TEST$TEST$TEST=lol$TEST'
-#exec_test 'export TEST=LOL; export TEST+=LOL ; echo $TEST ;' $ENV_SHOW
-#exec_test $ENV_SHOW
-#exec_test $EXPORT_SHOW
-#exec_test 'export TEST="ls       -l     - a" ; echo $TEST ; $LS ; ' $ENV_SHOW
+exec_test 'export ='
+exec_test 'export 1TEST= ;' $ENV_SHOW
+exec_test 'export TEST ;' $EXPORT_SHOW
+exec_test 'export ""="" ; ' $ENV_SHOW
+exec_test 'export TES=T="" ;' $ENV_SHOW
+exec_test 'export TE+S=T="" ;' $ENV_SHOW
+exec_test 'export TEST=LOL ; echo $TEST ;' $ENV_SHOW
+exec_test 'export TEST=LOL ; echo $TEST$TEST$TEST=lol$TEST'
+exec_test 'export TEST=LOL; export TEST+=LOL ; echo $TEST ;' $ENV_SHOW
+exec_test $ENV_SHOW
+exec_test $EXPORT_SHOW
+exec_test 'export TEST="ls       -l     - a" ; echo $TEST ; $LS ; ' $ENV_SHOW
 
 # REDIRECTIONS
 exec_test 'echo test > ls ; cat ls'
@@ -155,8 +155,8 @@ exec_test 'echo | |'
 exec_test '<'
 
 # EXIT
-# exec_test "exit 42"
-# exec_test "exit 42 53 68"
+exec_test "exit 42"
+exec_test "exit 42 53 68"
 # exec_test "exit 259"
 # exec_test "exit 9223372036854775807"
 # exec_test "exit -9223372036854775808"

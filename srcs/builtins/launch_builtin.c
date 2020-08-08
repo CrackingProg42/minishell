@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/03 11:20:05 by frthierr          #+#    #+#             */
-/*   Updated: 2020/08/06 15:38:23 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/08/08 15:26:39 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int		is_builtin_parent(char **command)
 		return (BUILTIN_CD);
 	else if (!ft_strncmp(command[0], "exit", ft_strlen("exit") + 1))
 		return (BUILTIN_EXIT);
-	else if (command[1] && !ft_strncmp(command[0], "export", ft_strlen("export") + 1))
+	else if (command[1] &&
+			!ft_strncmp(command[0], "export", ft_strlen("export") + 1))
 		return (BUILTIN_EXPORT);
 	else if (!ft_strncmp(command[0], "unset", ft_strlen("unset") + 1))
 		return (BUILTIN_UNSET);

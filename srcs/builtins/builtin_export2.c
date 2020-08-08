@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frthierr <frthierr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 19:36:48 by qfeuilla          #+#    #+#             */
-/*   Updated: 2020/08/05 15:28:53 by frthierr         ###   ########.fr       */
+/*   Updated: 2020/08/08 15:27:32 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int			modify_env_var(int index, char **argv, char *var)
 	ft_lstclear(&env_list, free);
 	return (0);
 }
+
 char		*added_var(char *arg)
 {
 	size_t	i;
@@ -105,8 +106,9 @@ char		*added_var(char *arg)
 		if (!(current_value = ft_strdup(&arg[i])))
 			return (NULL);
 	}
-	else if (!(current_value = ft_strjoin_2free(current_value, ft_strdup(&arg[i]))))
-			return (NULL);
+	else if (!(current_value = ft_strjoin_2free(current_value,
+				ft_strdup(&arg[i]))))
+		return (NULL);
 	if (!(key = ft_strjoin_free(key, "=")))
 		return (NULL);
 	if (!(current_value = ft_strjoin_2free(key, current_value)))
@@ -114,27 +116,3 @@ char		*added_var(char *arg)
 	free(arg);
 	return (current_value);
 }
-
-// char		*added_var(char *arg)
-// {
-// 	size_t	i;
-// 	char	*key;
-// 	char	*current_value;
-
-// 	i = 0;
-// 	while (arg[i] && arg[i] != '+')
-// 		i++;
-// 	if (!(key = ft_strndup(arg, i)))
-// 		return (NULL);
-// 	i += 2;
-// 	if ((!(current_value = get_env(key))
-// 		&& !(current_value = ft_strdup(&arg[i])))
-// 		|| (current_value
-// 		&& !(current_value = ft_strjoin_free(current_value,
-// 											ft_strdup(&arg[i]))))
-// 		|| !(key = ft_strjoin_free(key, "="))
-// 		|| !(current_value = ft_strjoin_2free(key, current_value)))
-// 		return (NULL);
-// 	free(arg);
-// 	return (current_value);
-// }

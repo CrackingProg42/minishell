@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 16:28:06 by qfeuilla          #+#    #+#             */
-/*   Updated: 2020/08/06 22:12:26 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/08/08 15:40:12 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,40 +89,6 @@ t_redirection	stock_redir(char **argv)
 		}
 	}
 	return (redir);
-}
-
-int				redirection(t_redirection red, int (*pipefd)[2], int *save)
-{
-	int		fd;
-
-	if (red.file == NULL)
-		return (0);
-	if (red.in)
-	{
-		if ((fd = open(red.file, O_RDONLY)) == -1)
-			return (-1);
-		if (*save)
-			close(*save);
-		*save = fd;
-	}
-	if (red.putendfile)
-	{
-		if ((fd = open(red.file, O_RDWR | O_CREAT | O_APPEND, 0666)) == -1)
-			return (-1);
-		close((*pipefd)[1]);
-		(*pipefd)[1] = fd;
-	}
-	if (red.putfile)
-	{
-		if ((fd = open(red.file, O_RDWR | O_CREAT | O_TRUNC, 0666)) == -1)
-			return (-1);
-		close((*pipefd)[1]);
-		(*pipefd)[1] = fd;
-	}
-	free(red.file);
-	if (red.file && red.in == 0 && red.putfile == 0 && red.putendfile == 0)
-		return (1);
-	return (0);
 }
 
 void			cmd_to_rafter(char ***cmd)

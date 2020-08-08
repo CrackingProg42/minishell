@@ -6,11 +6,11 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 14:48:38 by frthierr          #+#    #+#             */
-/*   Updated: 2020/08/06 22:44:23 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/08/08 16:13:19 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 void	print_prompt(void)
 {
@@ -20,34 +20,6 @@ void	print_prompt(void)
 	else
 		write(2, PIPE_START_MSG, ft_strlen(PIPE_START_MSG));
 	write(2, NC, ft_strlen(NC));
-}
-
-char	*last_token(t_list *token_list)
-{
-	t_list	*nav;
-
-	nav = token_list;
-	while (nav)
-	{
-		if (!nav->next)
-			return (char*)nav->content;
-		nav = nav->next;
-	}
-	return (NULL);
-}
-
-char	*prelast_token(t_list *token_list)
-{
-	t_list	*nav;
-
-	nav = token_list;
-	while (nav->next)
-	{
-		if (!nav->next->next)
-			return (char*)nav->content;
-		nav = nav->next;
-	}
-	return (NULL);
 }
 
 char	*first_token(t_list *token_list)
@@ -66,18 +38,51 @@ t_list	*pipe_handle(int depth, t_list **token_list)
 
 	if (depth == 0)
 		g_open_pipe = 1;
-	if (!ft_strncmp(first_token((*token_list)), "|", 2)
-		&& (ft_lstlen((*token_list)) == 1 || depth > 1))
-		g_pipe_error = 1;
-	else
-	{
-		print_prompt();
-		tmp = prompt_loop(depth + 1);
-		ft_lstadd_back(token_list, tmp);
-	}
+	print_prompt();
+	tmp = prompt_loop(depth + 1);
+	ft_lstadd_back(token_list, tmp);
 	if (depth == 0)
 		g_open_pipe = 0;
 	return ((*token_list));
+}
+
+char	*last_token(t_list *token_list)
+{
+	t_list	*nav;
+
+	nav = token_list;
+	while (nav)
+	{
+		if (!nav->next)
+			return (char*)nav->content;
+		nav = nav->next;
+	}
+	return (NULL);
+}
+
+int		check_pipe_error(t_list *token_list)
+{
+	t_list	*tmp;
+	int		prev_is_pipe;
+
+	prev_is_pipe = 0;
+	if (!ft_strncmp(first_token(token_list), "|", 2))
+		return (1);
+	tmp = token_list;
+	while (tmp)
+	{
+		if (!ft_strncmp((char*)tmp->content, "|", 2))
+		{
+			if (prev_is_pipe)
+				return (1);
+			else
+				prev_is_pipe = 1;
+		}
+		else
+			prev_is_pipe = 0;
+		tmp = tmp->next;
+	}
+	return (0);
 }
 
 t_list	*prompt_loop(int depth)
@@ -95,15 +100,14 @@ t_list	*prompt_loop(int depth)
 		return (NULL);
 	}
 	token_list = tokenize(line);
-	if ((!ft_strncmp(last_token(token_list), "|", 2))
-		|| (depth >= 1 && !last_token(token_list)))
-	{
-		free(line);
-		return (pipe_handle(depth, &token_list));
-	}
-	if (!ft_strncmp(first_token(token_list), "|", 2)
-		&& (ft_lstlen(token_list) == 1 || depth > 1))
-		g_pipe_error = 1;
 	free(line);
+	if (check_pipe_error(token_list))
+	{
+		g_pipe_error = 1;
+		return (token_list);
+	}
+	else if ((!ft_strncmp(last_token(token_list), "|", 2))
+		|| (depth >= 1 && !last_token(token_list)))
+		return (pipe_handle(depth, &token_list));
 	return (token_list);
 }

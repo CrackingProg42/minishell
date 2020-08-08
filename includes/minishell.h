@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 13:40:30 by frthierr          #+#    #+#             */
-/*   Updated: 2020/08/06 20:42:42 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/08/08 16:59:30 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,8 +141,7 @@ int					ft_strlen_key(char *key_start);
 char				*eev(char *token, char *final_token, int *i, int *j);
 void				*get_final_token(void *content);
 t_list				*expand_tokens(t_list *token_list);
-char				*expand_token_quote(char *token);
-char				*expand_token_noquote(char *token);
+char				*expand_token_quote(char *tk, s_expand_tk_dt d);
 size_t				ft_strlen_etokens(char *s);
 int					is_specialchar_dquote(char c);
 

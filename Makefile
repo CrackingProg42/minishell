@@ -33,7 +33,9 @@ SRCS=	srcs/parsing/prompt_loop.c\
 		srcs/signals/signal_handlers.c\
 		srcs/utils/print_tokens.c\
 		srcs/pipe/execute_pipes.c\
-		srcs/redirections/redirections_utils.c
+		srcs/redirections/redirections_utils.c\
+		srcs/redirections/redirections_utils2.c
+
 INCLUDE_DIRS = -I srcs/libft\
 			-I includes	
 OBJECTS = ${SRCS:.c=.o}
@@ -76,7 +78,7 @@ test: all
 clean:
 	@rm -rf logs
 	@printf "${RED}X	"
-	rm ${OBJECTS}
+	rm -rf ${OBJECTS}
 	@printf "${NC}"
 	make -C srcs/libft clean
 	@echo "${GREEN}✓	${NAME} clean${NC}"
