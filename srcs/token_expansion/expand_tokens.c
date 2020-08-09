@@ -6,32 +6,41 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/30 11:57:50 by frthierr          #+#    #+#             */
-/*   Updated: 2020/08/08 17:03:20 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/08/09 18:12:30 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*add_bzero(char **final_token, int index)
-{
-	(*final_token)[index] = '\0';
-	return (*final_token);
-}
-
 int		is_quote_only(char *tk)
 {
-	if (ft_strlen(tk) == 2 && (!ft_strncmp(tk, "\"\"", 3)
+	if ((ft_strlen(tk) == 2 && (!ft_strncmp(tk, "\"\"", 3)
 		|| !ft_strncmp(tk, "\'\'", 3)))
+		|| (tk[0] == '\"' && tk[ft_strlen(tk) - 1] == '\"' && ft_strlen(tk) >= 2))
 		return (1);
 	return (0);
 }
 
+char	*return_token(char **tk, int check_quote)
+{
+	if ((!(*tk) || !(*tk)[0]) && check_quote)
+	{
+		if (*tk)
+			free(*tk);
+		return (ft_strdup("\33\127"));
+	}
+	return (*tk);
+}
+
 char	*expand_token_quote(char *tk, s_expand_tk_dt d)
 {
+	int		check_quote;
+	
+	check_quote = 0;
 	if (is_quote_only(tk))
-		return (ft_strdup("\33\127"));
+		check_quote = 1;
 	if (!(d.final_token = init_expand(&d.qt, &d.ij, &d.pb, tk)))
-		return (NULL);
+		return (return_token(NULL, check_quote));
 	while (tk[d.ij.a])
 	{
 		tk[d.ij.a] == '\'' && d.qt.dq == -1 && (!d.pb || d.qt.q == 1)
@@ -43,16 +52,17 @@ char	*expand_token_quote(char *tk, s_expand_tk_dt d)
 			{
 				d.tmp = d.final_token;
 				if (!(d.final_token = eev(tk, d.final_token, &d.ij.a, &d.ij.b)))
-					return (NULL);
+					return (return_token(NULL, check_quote));
 				if (elif_loop(&d.final_token, &d.tmp))
-					return (d.final_token);
+					return (return_token(&d.final_token, check_quote));
 			}
 			else
 				d.final_token[d.ij.b++] = tk[d.ij.a++];
 		else if (!(d.pb = 0))
 			else_loop(tk, &d.final_token, &d.ij, &d.qt);
 	}
-	return (add_bzero(&d.final_token, d.ij.b));
+	d.final_token[d.ij.b] = '\0';
+	return (return_token(&d.final_token, check_quote));
 }
 
 void	*get_final_token(void *content)
@@ -64,7 +74,11 @@ void	*get_final_token(void *content)
 	str = ((char*)content);
 	str = expand_token_quote(str, d);
 	if (!str || !str[0])
+	{
+		if (str)
+			free(str);
 		return (NULL);
+	}
 	return (str);
 }
 
