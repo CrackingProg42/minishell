@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/03 11:18:29 by frthierr          #+#    #+#             */
-/*   Updated: 2020/08/08 15:47:12 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/08/09 12:52:42 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,72 @@ int			ft_go_home(char *current_dir)
 	return (return_value);
 }
 
+static int		backtrack_dirs(void)
+{
+	size_t	i;
+	char	*current_dir;
+	char	*new_dir;
+
+	if (!(current_dir = get_env("PWD")))
+		return (1);
+	if (modify_path(current_dir, "OLDPWD="))
+		return (1);
+	i = ft_strlen(current_dir) - 1;
+	while (i > 1 && current_dir[i] == '.' && current_dir[i - 1] == '/')
+		i -= 2;
+	while (current_dir[i] != '/')
+		i--;
+	if (!(new_dir = ft_strndup_free(current_dir, i)))
+		return (1);
+	if (modify_path(new_dir, "PWD="))
+		return (1);
+	chdir(new_dir);
+	free(new_dir);
+	return (0);
+}
+
+static int		handle_deleted_dir(char *arg)
+{
+	char	*current_dir;
+	char	*new_dir;
+
+	if (!ft_strncmp(arg, "..", 3))
+		return (backtrack_dirs());
+	if (!(current_dir = get_env("PWD")))
+		return (1);
+	if (modify_path(current_dir, "OLDPWD="))
+		return (1);
+	if (!(new_dir = ft_strjoin_free(current_dir, "/.")))
+		return (1);
+	if (modify_path(new_dir, "PWD="))
+		return (1);
+	// free(new_dir);
+	return (0);
+}
+
+char	*is_working_dir(void)
+{
+	DIR		*dir;
+	char	*current_dir;
+
+	if (!(current_dir = get_env("PWD")))
+		return (NULL);
+	if (!(dir = opendir((const char*)current_dir)))
+		return (NULL);
+	closedir(dir);
+	return (getcwd(NULL, 0));
+}
+
 int			builtin_cd(char **args)
 {
 	char	*directory;
 
+	if (args[0] && args[1] && args[2])
+		return (ft_perror("too many arguments") == 0 ? 1 : 1);
 	if (!(directory = getcwd(NULL, 0)))
-		return (1);
+		return (handle_deleted_dir(args[1]));
+	// if (!(directory = is_working_dir()))
+	// 	return (handle_deleted_dir(args[1]));
 	if (!args[1])
 		return (ft_go_home(directory));
 	if (chdir(args[1]) < 0)

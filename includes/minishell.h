@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 13:40:30 by frthierr          #+#    #+#             */
-/*   Updated: 2020/08/08 16:59:30 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/08/09 12:35:05 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <sys/stat.h>
 # include <errno.h>
 # include <signal.h>
+# include <dirent.h>
 
 /*
 **	DEFINES
@@ -54,6 +55,7 @@ int					g_exit_status;
 int					g_p_stop_sig;
 int					g_open_pipe;
 int					g_pipe_error;
+int					g_man;
 
 /*
 **		______STRUCTS______

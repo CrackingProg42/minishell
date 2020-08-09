@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/29 16:49:23 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/25 19:30:58 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/08/09 12:54:06 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*preprocess_env(char *env_val)
 	i = -1;
 	j = 0;
 	prev_is_space = 0;
-	preproc_env = (char *)malloc(ft_strlen(env_val) * sizeof(char));
+	preproc_env = (char *)malloc((ft_strlen(env_val) + 1) * sizeof(char));
 	while (env_val[++i])
 	{
 		if (!(env_val[i] == ' ' && prev_is_space == 1))

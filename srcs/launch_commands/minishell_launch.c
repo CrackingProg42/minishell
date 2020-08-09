@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 14:37:03 by franciszer        #+#    #+#             */
-/*   Updated: 2020/08/08 16:08:40 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/08/09 12:38:34 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ int		minishell_launch(char **argv, int *save, int last)
 	t_int2			save_last;
 	t_list			*redirs;
 
+	g_man = ft_strncmp(argv[0], "man", 4) == 0 ? 1 : 0;
 	if (pipe(fd) < 0)
 		return (0);
 	if (!(redirs = do_redir(&argv)))

@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 00:58:12 by qfeuilla          #+#    #+#             */
-/*   Updated: 2020/08/08 13:10:08 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/08/09 16:39:36 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int		preprocess_minishell(char ***argv)
 	builtin_id = -1;
 	g_exit_status = 0;
 	if (!((*argv)[1] && is_redir((*argv)[1]))
-		&& (builtin_id = is_builtin_parent((*argv))) >= 0)
+		&& (builtin_id = is_builtin_parent((*argv))) >= 0) 
 		g_exit_status = launch_builtin_parent(builtin_id, (*argv));
 	else if (builtin_id == -2)
 		return (-1);

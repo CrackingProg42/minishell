@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 19:36:48 by qfeuilla          #+#    #+#             */
-/*   Updated: 2020/08/08 15:27:32 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/08/09 12:32:55 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int			export_check_syntax(char *arg)
 	i = 1;
 	if (!arg[0] || (!ft_isalpha(arg[0]) && arg[0] != '_'))
 		return (1);
-	while (arg[i] && arg[i] != '=' && arg[i] != '+')
+	while (arg[i] && arg[i] != '=' && !(arg[i] == '+' && arg[i + 1] == '='))
 		if (!ft_isalnum(arg[i++]) && arg[0] != '_')
 			return (1);
 	if (arg[i] == '+' && arg[i + 1] == '=')
