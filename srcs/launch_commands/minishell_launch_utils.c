@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_launch_utils.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frthierr <frthierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 00:58:12 by qfeuilla          #+#    #+#             */
-/*   Updated: 2020/08/09 16:39:36 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/08/10 14:01:52 by frthierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int		redir_error(t_redirection redir)
 		|| redir.putendfile || redir.putfile))
 		|| (type = is_redir(redir.file)))
 	{
-		g_exit_status = 2;
+		g_exit_status = 258;
 		if (type == 1)
 			ft_perror(ERR_REDIR_1);
 		else if (type == 2)
@@ -97,8 +97,8 @@ int		preprocess_minishell(char ***argv)
 
 	builtin_id = -1;
 	g_exit_status = 0;
-	if (!((*argv)[1] && is_redir((*argv)[1]))
-		&& (builtin_id = is_builtin_parent((*argv))) >= 0) 
+	if (!((*argv)[1] && is_redir((*argv)[1]))\
+		&& (builtin_id = is_builtin_parent((*argv))) >= 0)
 		g_exit_status = launch_builtin_parent(builtin_id, (*argv));
 	else if (builtin_id == -2)
 		return (-1);

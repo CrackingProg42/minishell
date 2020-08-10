@@ -3,23 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frthierr <frthierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/30 11:57:50 by frthierr          #+#    #+#             */
-/*   Updated: 2020/08/09 18:12:30 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/08/10 15:22:02 by frthierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int		is_quote_only(char *tk)
-{
-	if ((ft_strlen(tk) == 2 && (!ft_strncmp(tk, "\"\"", 3)
-		|| !ft_strncmp(tk, "\'\'", 3)))
-		|| (tk[0] == '\"' && tk[ft_strlen(tk) - 1] == '\"' && ft_strlen(tk) >= 2))
-		return (1);
-	return (0);
-}
 
 char	*return_token(char **tk, int check_quote)
 {
@@ -32,10 +23,10 @@ char	*return_token(char **tk, int check_quote)
 	return (*tk);
 }
 
-char	*expand_token_quote(char *tk, s_expand_tk_dt d)
+char	*expand_token_quote(char *tk, t_expand_tk_dt d)
 {
 	int		check_quote;
-	
+
 	check_quote = 0;
 	if (is_quote_only(tk))
 		check_quote = 1;
@@ -68,7 +59,7 @@ char	*expand_token_quote(char *tk, s_expand_tk_dt d)
 void	*get_final_token(void *content)
 {
 	char			*str;
-	s_expand_tk_dt	d;
+	t_expand_tk_dt	d;
 
 	d.qt.q = -1;
 	str = ((char*)content);

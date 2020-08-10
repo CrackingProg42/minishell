@@ -19,15 +19,18 @@ SRCS=	srcs/parsing/prompt_loop.c\
 		srcs/token_expansion/token_expansion_utils.c\
 		srcs/launch_commands/minishell_launch.c\
 		srcs/launch_commands/minishell_launch_utils.c\
+		srcs/launch_commands/minishell_launch_utils2.c\
 		srcs/launch_commands/execute_commands.c\
 		srcs/launch_commands/command_utils.c\
 		srcs/builtins/builtin_cd.c\
+		srcs/builtins/builtin_cd2.c\
 		srcs/builtins/builtin_exit.c\
 		srcs/builtins/builtin_pwd.c\
 		srcs/builtins/builtin_env.c\
 		srcs/builtins/builtin_echo.c\
 		srcs/builtins/builtin_export.c\
 		srcs/builtins/builtin_export2.c\
+		srcs/builtins/builtin_export3.c\
 		srcs/builtins/builtin_unset.c\
 		srcs/builtins/launch_builtin.c\
 		srcs/signals/signal_handlers.c\

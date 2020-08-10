@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frthierr <frthierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/29 16:49:23 by frthierr          #+#    #+#             */
-/*   Updated: 2020/08/09 17:55:43 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/08/10 14:21:34 by frthierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		is_quote_only(char *tk)
+{
+	if ((ft_strlen(tk) == 2 && (!ft_strncmp(tk, "\"\"", 3)
+		|| !ft_strncmp(tk, "\'\'", 3)))
+		|| (tk[0] == '\"' && tk[ft_strlen(tk) - 1] == '\"'\
+		&& ft_strlen(tk) >= 2))
+		return (1);
+	return (0);
+}
 
 char	*preprocess_env(char *env_val)
 {

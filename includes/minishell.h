@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 13:40:30 by frthierr          #+#    #+#             */
-/*   Updated: 2020/08/09 12:35:05 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/08/10 17:04:30 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int					g_p_stop_sig;
 int					g_open_pipe;
 int					g_pipe_error;
 int					g_man;
+int					g_semicol_error;
 
 /*
 **		______STRUCTS______
@@ -94,7 +95,7 @@ typedef struct		s_expand_tk_dt
 	char		*tmp;
 	char		*final_token;
 	t_quotes	qt;
-}					s_expand_tk_dt;
+}					t_expand_tk_dt;
 
 /*
 ** ________FUNCTIONS________
@@ -115,13 +116,12 @@ char				*copy_token(char *str, size_t maxsize);
 t_list				*tokenize(char *line);
 size_t				get_token(char *token_start, t_list **tokenlist);
 int					add_to_token_list(char *token, t_list **tokenlist);
-size_t				token_len(char *token_start);
-size_t				token_len_s_quote(char *token_start);
-size_t				token_len_d_quote(char *token_start);
+size_t				ftoken_len(char *tok_s);
 size_t				token_len_special(char *token_start);
 int					tokens_syntax_check(t_list *token_list);
 int					pipes_syntax_check(t_list *token_list);
 char				*last_token(t_list *tokenlist);
+char				*first_token(t_list *token_list);
 
 /*
 **		_____MINISHELL_LAUNCH_____
@@ -133,6 +133,10 @@ void				parent(pid_t *pid, int *save, int fd[2]);
 void				child(t_int2 save_last, int contain_putfile,
 							char ***argv, int fd[2]);
 int					preprocess_minishell(char ***argv);
+void				sigtest(int sig);
+char				**copy_argv(char **argv);
+int					contain_redir(char **argv);
+t_list				*do_redir(char ***argv);
 
 /*
 **       ______TOKEN_EXPANSION_____
@@ -143,9 +147,10 @@ int					ft_strlen_key(char *key_start);
 char				*eev(char *token, char *final_token, int *i, int *j);
 void				*get_final_token(void *content);
 t_list				*expand_tokens(t_list *token_list);
-char				*expand_token_quote(char *tk, s_expand_tk_dt d);
+char				*expand_token_quote(char *tk, t_expand_tk_dt d);
 size_t				ft_strlen_etokens(char *s);
 int					is_specialchar_dquote(char c);
+int					is_quote_only(char *tk);
 
 /*
 **		_____COMMANDS_____
@@ -169,6 +174,7 @@ int					is_builtin_parent(char **command);
 int					launch_builtin_child(int builtin_id, char **argv);
 int					launch_builtin_parent(int builtin_id, char **argv);
 int					builtin_cd(char **args);
+int					ft_go_home(char *current_dir);
 int					builtin_exit(char **args);
 int					builtin_pwd();
 int					builtin_env();
@@ -225,7 +231,8 @@ int					file_not_found(t_redirection redir);
 char				*init_expand(t_quotes *qt, t_int2 *ij, int *pb, char *tk);
 int					if_loop(char *tk, t_int2 *ij, t_quotes *qt, int *pb);
 char				*elif_loop(char **final_token, char **tmp);
-void				else_loop(char *tk, char **final_token, t_int2 *ij, t_quotes *qt);
+void				else_loop(char *tk, char **final_token,\
+					t_int2 *ij, t_quotes *qt);
 int					elif_test(char *tk, t_quotes qt, t_int2 ij);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frthierr <frthierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 14:12:42 by frthierr          #+#    #+#             */
-/*   Updated: 2020/08/06 19:51:45 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/08/10 12:29:00 by frthierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 # define ERR_TOO_MANY_ARGS "too many arguments"
 
 # define ERR_PIPE "Syntax error: `|\' unexpected"
+
+# define ERR_SEMICOL "Syntax error: `;\' unexpected"
 
 # define ERR_REDIR "syntax error near unexpected token `newline\'"
 # define ERR_REDIR_2 "syntax error near unexpected token `>\'"

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frthierr <frthierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 13:39:32 by frthierr          #+#    #+#             */
-/*   Updated: 2020/08/09 12:58:36 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/08/10 14:25:29 by frthierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,6 @@ void	minishell_start(void)
 	{
 		if (!tokens_syntax_check(token_list))
 			clear_and_throw(ERR_UNFINISHED_QUOTE, &token_list);
-		else if (!pipes_syntax_check(token_list) || g_pipe_error)
-		{
-			g_exit_status = 2;
-			g_pipe_error = 0;
-			ft_lstclear(&token_list, free);
-			ft_perror(ERR_PIPE);
-		}
 		else
 		{
 			command_list = get_command_list(token_list);
@@ -51,6 +44,7 @@ int		main(int argc, char **argv, char **env)
 	g_open_pipe = 0;
 	g_pipe_error = 0;
 	g_exit_status = 0;
+	g_semicol_error = 0;
 	g_man = 0;
 	if (argc > 1 || argv[1])
 	{

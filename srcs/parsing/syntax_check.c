@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frthierr <frthierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/01 18:43:38 by frthierr          #+#    #+#             */
-/*   Updated: 2020/08/08 11:57:54 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/08/10 14:26:52 by frthierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,22 @@ int		pipes_syntax_check(t_list *token_list)
 	if (ft_lstlen(token_list) == 1 &&
 		!ft_strncmp(last_token(token_list), "|", 2))
 		return (0);
+	else if (!pipes_syntax_check(token_list) || g_pipe_error \
+	|| g_semicol_error)
+	{
+		g_exit_status = 258;
+		if (g_pipe_error)
+		{
+			g_pipe_error = 0;
+			ft_perror(ERR_PIPE);
+		}
+		else if (g_semicol_error)
+		{
+			g_semicol_error = 0;
+			ft_perror(ERR_SEMICOL);
+		}
+		ft_lstclear(&token_list, free);
+		return (0);
+	}
 	return (1);
 }
