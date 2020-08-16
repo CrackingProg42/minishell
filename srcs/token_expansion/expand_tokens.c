@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frthierr <frthierr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/30 11:57:50 by frthierr          #+#    #+#             */
-/*   Updated: 2020/08/10 15:22:02 by frthierr         ###   ########.fr       */
+/*   Updated: 2020/08/16 11:06:28 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ char	*expand_token_quote(char *tk, t_expand_tk_dt d)
 	int		check_quote;
 
 	check_quote = 0;
+	if ((d.final_token = quoted_redir(tk)))
+		return (d.final_token);
 	if (is_quote_only(tk))
 		check_quote = 1;
 	if (!(d.final_token = init_expand(&d.qt, &d.ij, &d.pb, tk)))
@@ -86,6 +88,11 @@ void	clear_token(t_list **token_list)
 			tmp = &nav;
 			(*tmp) = nav->next;
 		}
+		else if (!ft_strncmp(nav->content, "\33\127", ft_strlen("\33\127") + 1))
+		{
+			free(nav->content);
+			nav->content = ft_strdup("");
+		}
 		nav = nav->next;
 	}
 }
@@ -96,6 +103,9 @@ t_list	*expand_tokens(t_list *token_list)
 	t_list	*tmp_list;
 
 	tmp_list = token_list;
+	if (token_list && token_list->content &&\
+	((char*)(token_list->content))[0] == '$')
+		g_first_is_envvar = 1;
 	expanded_list = ft_lstfilter(&tmp_list, get_final_token, free);
 	clear_token(&expanded_list);
 	return (expanded_list);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: franciszer <franciszer@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/05 11:40:02 by franciszer        #+#    #+#             */
-/*   Updated: 2020/07/21 19:10:29 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/08/11 19:15:39 by franciszer       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int			remove_var_loop(char *var_name, t_list *nav, t_list *prev,
 	{
 		if (!(tmp = strndup_len_char((char*)nav->content, '=')))
 			return (1);
-		if (!ft_strncmp(var_name, tmp, ft_strlen(tmp)))
+		if (!ft_strncmp(var_name, tmp, ft_strlen(tmp) + 1))
 		{
 			to_free = nav;
 			nav = nav->next;
@@ -69,15 +69,37 @@ int			remove_var(char *var_name)
 	return (0);
 }
 
+int			unset_check_syntax(char *arg)
+{
+	int		i;
+
+	i = 1;
+	if (!arg[0] || (!ft_isalpha(arg[0]) && arg[0] != '_'))
+		return (1);
+	while (arg[i])
+	{
+		if (!ft_isalnum(arg[i++]) && arg[i] != '_')
+			return (1);
+	}
+	return (0);
+}
+
 int			builtin_unset(char **argv)
 {
 	int	i;
-
+	int	ret_value;
+	
+	ret_value = 0;
 	i = 1;
 	while (argv[i])
 	{
+		if (unset_check_syntax(argv[i]) && !ret_value)
+		{
+			ft_perror("not valid identifier");
+			ret_value = 1;
+		}
 		remove_var(argv[i]);
 		i++;
 	}
-	return (0);
+	return (ret_value);
 }

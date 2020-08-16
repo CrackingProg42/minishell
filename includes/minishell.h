@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 13:40:30 by frthierr          #+#    #+#             */
-/*   Updated: 2020/08/10 17:04:30 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/08/16 11:10:21 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,18 +57,20 @@ int					g_open_pipe;
 int					g_pipe_error;
 int					g_man;
 int					g_semicol_error;
+int					g_first_is_envvar;
+int					g_in_fork;
 
 /*
 **		______STRUCTS______
 */
 
-typedef struct		s_redirection
+typedef struct		s_redir
 {
 	int				in;
 	int				putfile;
 	int				putendfile;
 	char			*file;
-}					t_redirection;
+}					t_redir;
 
 typedef struct		s_quotes
 {
@@ -90,11 +92,11 @@ typedef struct		s_size_t2
 
 typedef struct		s_expand_tk_dt
 {
-	t_int2		ij;
-	int			pb;
-	char		*tmp;
-	char		*final_token;
-	t_quotes	qt;
+	t_int2			ij;
+	int				pb;
+	char			*tmp;
+	char			*final_token;
+	t_quotes		qt;
 }					t_expand_tk_dt;
 
 /*
@@ -128,7 +130,7 @@ char				*first_token(t_list *token_list);
 */
 
 int					path_searching(char **argv, char **tmp);
-int					redir_error(t_redirection redir);
+int					redir_error(t_redir redir);
 void				parent(pid_t *pid, int *save, int fd[2]);
 void				child(t_int2 save_last, int contain_putfile,
 							char ***argv, int fd[2]);
@@ -164,6 +166,7 @@ void				exit_minishell(int action, t_list *token_list,
 int					minishell_launch(char **argv, int *start, int islast);
 char				*search_path(char *command);
 int					execute_pipes(t_list **commandlist);
+t_list				*pipe_handle(int depth, t_list **token_list);
 
 /*
 **		_____BUILTINS_____
@@ -171,6 +174,7 @@ int					execute_pipes(t_list **commandlist);
 
 int					is_builtin_child(char *command);
 int					is_builtin_parent(char **command);
+int					is_builtin_parent_2(char *command);
 int					launch_builtin_child(int builtin_id, char **argv);
 int					launch_builtin_parent(int builtin_id, char **argv);
 int					builtin_cd(char **args);
@@ -216,13 +220,15 @@ void				print_argv(char **argv);
 **		_____REDIRECTION_____
 */
 
-t_redirection		stock_redir(char **cmd);
-int					redirection(t_redirection redir, int (*pipefd)[2],
+t_redir				stock_redir(char **cmd);
+int					redirection(t_redir redir, int (*pipefd)[2],
 								int *save);
 void				cmd_to_rafter(char ***cmd);
 int					is_redir(char *cmd);
-int					is_dir(t_redirection redir);
-int					file_not_found(t_redirection redir);
+int					is_dir(t_redir redir);
+int					file_not_found(t_redir redir);
+void				check_file(char **file);
+char				*quoted_redir(char *tk);
 
 /*
 **		_____EXPAND_TOKEN_____

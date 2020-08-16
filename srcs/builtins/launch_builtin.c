@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frthierr <frthierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/03 11:20:05 by frthierr          #+#    #+#             */
-/*   Updated: 2020/08/08 15:26:39 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/08/11 14:25:06 by frthierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,21 @@ int		is_builtin_parent(char **command)
 			!ft_strncmp(command[0], "export", ft_strlen("export") + 1))
 		return (BUILTIN_EXPORT);
 	else if (!ft_strncmp(command[0], "unset", ft_strlen("unset") + 1))
+		return (BUILTIN_UNSET);
+	else
+		return (-1);
+}
+
+int		is_builtin_parent_2(char *command)
+{
+	if (!ft_strncmp(command, "cd", 3))
+		return (BUILTIN_CD);
+	else if (!ft_strncmp(command, "exit", ft_strlen("exit") + 1))
+		return (BUILTIN_EXIT);
+	else if (command &&
+			!ft_strncmp(command, "export", ft_strlen("export") + 1))
+		return (BUILTIN_EXPORT);
+	else if (!ft_strncmp(command, "unset", ft_strlen("unset") + 1))
 		return (BUILTIN_UNSET);
 	else
 		return (-1);

@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/01 15:04:43 by frthierr          #+#    #+#             */
-/*   Updated: 2020/07/22 16:26:43 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/08/16 11:06:56 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,18 @@ size_t	ft_strlen_etokens(char *s)
 		i++;
 	}
 	return (ft_strlen(s) + (evar_count * maxlen) + 1);
+}
+
+char	*quoted_redir(char *tk)
+{
+	if (!ft_strncmp(tk, "\">\"", 4)
+		|| !ft_strncmp(tk, "\'>\'", 4))
+		return (ft_strdup("\33\127>"));
+	else if (!ft_strncmp(tk, "\">>\"", 5)
+			|| !ft_strncmp(tk, "\'>>\'", 5))
+		return (ft_strdup("\33\127>>"));
+	else if (!ft_strncmp(tk, "\"<\"", 4)
+			|| !ft_strncmp(tk, "\'<\'", 4))
+		return (ft_strdup("\33\127<"));
+	return (NULL);
 }
