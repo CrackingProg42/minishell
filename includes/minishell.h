@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: frthierr <frthierr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 13:40:30 by frthierr          #+#    #+#             */
-/*   Updated: 2020/08/16 11:10:21 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/08/17 15:19:46 by frthierr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ typedef struct		s_expand_tk_dt
 	int				pb;
 	char			*tmp;
 	char			*final_token;
+	int				is_err;
 	t_quotes		qt;
 }					t_expand_tk_dt;
 
@@ -153,6 +154,10 @@ char				*expand_token_quote(char *tk, t_expand_tk_dt d);
 size_t				ft_strlen_etokens(char *s);
 int					is_specialchar_dquote(char c);
 int					is_quote_only(char *tk);
+char				*return_token(char **tk, int check_quote);
+int					expand_quote_set_vals(char *tk,\
+					t_expand_tk_dt *d, int *check_quote);
+char				*return_expand_tk_quote(t_expand_tk_dt *d, int check_quote);
 
 /*
 **		_____COMMANDS_____
