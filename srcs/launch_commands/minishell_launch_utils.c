@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 00:58:12 by qfeuilla          #+#    #+#             */
-/*   Updated: 2020/08/16 11:04:45 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/08/24 18:39:07 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ void	parent(pid_t *pid, int *save, int fd[2])
 	else if (WIFSIGNALED(g_exit_status))
 	{
 		g_p_stop_sig = 1;
-		g_exit_status += 128;
+		if (g_exit_status != 131)
+			g_exit_status += 128;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 13:40:30 by frthierr          #+#    #+#             */
-/*   Updated: 2020/08/24 15:21:20 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/08/24 18:04:39 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ int					is_quote(char c);
 int					is_special_char(char *s);
 char				*copy_token(char *str, size_t maxsize);
 t_list				*tokenize(char *line);
+size_t				token_len_env(char *tok_s);
 size_t				get_token(char *token_start, t_list **tokenlist);
 int					add_to_token_list(char *token, t_list **tokenlist);
 size_t				ftoken_len(char *tok_s);
@@ -250,5 +251,6 @@ char				*elif_loop(char **final_token, char **tmp);
 void				else_loop(char *tk, char **final_token,\
 					t_int2 *ij, t_quotes *qt);
 int					elif_test(char *tk, t_quotes qt, t_int2 ij);
+char				*return_token(char **tk, int check_quote);
 
 #endif
