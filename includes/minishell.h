@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frthierr <frthierr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 13:40:30 by frthierr          #+#    #+#             */
-/*   Updated: 2020/08/17 15:19:46 by frthierr         ###   ########.fr       */
+/*   Updated: 2020/08/24 15:21:20 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,9 +145,10 @@ t_list				*do_redir(char ***argv);
 **       ______TOKEN_EXPANSION_____
 */
 
-char				*get_env(char *key);
+char				*get_env(char *key, int preprocess);
 int					ft_strlen_key(char *key_start);
 char				*eev(char *token, char *final_token, int *i, int *j);
+char				*eev2(char *token, char *final_token, int *i, int *j);
 void				*get_final_token(void *content);
 t_list				*expand_tokens(t_list *token_list);
 char				*expand_token_quote(char *tk, t_expand_tk_dt d);
@@ -205,6 +206,10 @@ int					all_env_written(char *env_written, size_t len);
 void				print_export_loop(char **env_written, size_t len);
 int					print_export(void);
 int					builtin_export(char **argv);
+char				*remove_plus_sign(char *arg);
+t_list				*replance_envvar_init_vals(int *replaced);
+int					replace_envvar_util(t_list *nav, char *arg);
+int					replace_envvar(char *arg);
 
 /*
 **		_____SIGNAL_HANDLING_____

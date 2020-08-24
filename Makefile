@@ -14,6 +14,7 @@ SRCS=	srcs/parsing/prompt_loop.c\
 		srcs/parsing/syntax_check.c\
 		srcs/commands/search_path.c\
 		srcs/token_expansion/get_env.c\
+		srcs/token_expansion/get_env_utils.c\
 		srcs/token_expansion/expand_tokens.c\
 		srcs/token_expansion/expand_tokens_utils.c\
 		srcs/token_expansion/token_expansion_utils.c\
@@ -28,6 +29,7 @@ SRCS=	srcs/parsing/prompt_loop.c\
 		srcs/builtins/builtin_pwd.c\
 		srcs/builtins/builtin_env.c\
 		srcs/builtins/builtin_echo.c\
+		srcs/builtins/builtin_export_utils.c\
 		srcs/builtins/builtin_export.c\
 		srcs/builtins/builtin_export2.c\
 		srcs/builtins/builtin_export3.c\

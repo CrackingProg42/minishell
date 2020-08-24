@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frthierr <frthierr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/29 16:49:23 by frthierr          #+#    #+#             */
-/*   Updated: 2020/08/11 11:34:49 by frthierr         ###   ########.fr       */
+/*   Updated: 2020/08/24 16:06:41 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*preprocess_env(char *env_val)
 	preproc_env = (char *)malloc((ft_strlen(env_val) + 1) * sizeof(char));
 	while (env_val[++i])
 	{
-		if (!(env_val[i] == ' ' && prev_is_space == 1) 
+		if (!(env_val[i] == ' ' && prev_is_space == 1)
 			&& !(env_val[i] == ' ' && i == 0))
 			preproc_env[j++] = env_val[i];
 		if (env_val[i] == ' ')
@@ -50,7 +50,7 @@ char	*preprocess_env(char *env_val)
 	return (preproc_env);
 }
 
-char	*get_env(char *key)
+char	*get_env(char *key, int preprocess)
 {
 	char	*value;
 	int		i;
@@ -69,7 +69,9 @@ char	*get_env(char *key)
 		{
 			if (!(value = ft_strdup(&g_env[i][ft_strlen(key) + 1])))
 				return (NULL);
-			return (preprocess_env(value));
+			if (preprocess)
+				return (preprocess_env(value));
+			return (value);
 		}
 		i++;
 	}
@@ -95,31 +97,4 @@ int		ft_strlen_key(char *key_start)
 			i++;
 	}
 	return (i);
-}
-
-char	*eev(char *token, char *final_token, int *i, int *j)
-{
-	char	*key;
-	char	*head;
-	char	*body;
-	char	*tail;
-
-	final_token[*j] = 0;
-	if (!(key = ft_strndup(&token[*i], ft_strlen_key(&token[*i]))))
-		return (NULL);
-	if (!(head = ft_strdup(final_token)))
-		return (NULL);
-	if (!(tail = ft_strdup(&token[*i + ft_strlen_key(&token[*i])])))
-		return (NULL);
-	if (!(body = get_env(key)))
-		body = ft_strdup("");
-	if (!(!head[0] && !body[0] && !tail[0]))
-		*i += ft_strlen_key(&token[*i]);
-	*j += ft_strlen(body);
-	free(key);
-	if (!(head = ft_strjoin_2free(head, body)))
-		return (NULL);
-	if (!(head = ft_strjoin_2free(head, tail)))
-		return (NULL);
-	return (head);
 }

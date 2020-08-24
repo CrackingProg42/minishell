@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frthierr <frthierr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/30 11:57:50 by frthierr          #+#    #+#             */
-/*   Updated: 2020/08/17 14:57:46 by frthierr         ###   ########.fr       */
+/*   Updated: 2020/08/24 16:00:59 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ char	*expand_token_quote(char *tk, t_expand_tk_dt d)
 			else if (elif_test(tk, d.qt, d.ij))
 			{
 				d.tmp = d.final_token;
-				if (!(d.final_token = eev(tk, d.final_token, &d.ij.a, &d.ij.b)))
+				if (d.qt.dq == -1 && !(d.final_token = eev2(tk, d.final_token, &d.ij.a, &d.ij.b)))
+					return (return_token(NULL, check_quote));
+				else if (!(d.final_token = eev(tk, d.final_token, &d.ij.a, &d.ij.b)))
 					return (return_token(NULL, check_quote));
 				if (elif_loop(&d.final_token, &d.tmp))
 					return (return_token(&d.final_token, check_quote));
