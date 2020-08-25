@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 13:40:30 by frthierr          #+#    #+#             */
-/*   Updated: 2020/08/25 15:06:06 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/08/25 23:05:35 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,8 @@ int					tokens_syntax_check(t_list *token_list);
 int					pipes_syntax_check(t_list *token_list);
 char				*last_token(t_list *tokenlist);
 char				*first_token(t_list *token_list);
+void				do_quotes(t_expand_tk_dt *d, char *tk);
+void				manage_tmp(t_expand_tk_dt *d, char *tmp, char *tk);
 
 /*
 **		_____MINISHELL_LAUNCH_____
