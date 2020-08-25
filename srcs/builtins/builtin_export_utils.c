@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frthierr <frthierr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/24 12:43:08 by frthierr          #+#    #+#             */
-/*   Updated: 2020/08/24 12:43:24 by frthierr         ###   ########.fr       */
+/*   Updated: 2020/08/25 15:13:04 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ char		*remove_plus_sign(char *arg)
 		else
 			i++;
 	}
+	new_arg[j] = '\0';
 	return (new_arg);
 }
 
