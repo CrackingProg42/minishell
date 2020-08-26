@@ -6,7 +6,7 @@
 /*   By: qfeuilla <qfeuilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 13:40:30 by frthierr          #+#    #+#             */
-/*   Updated: 2020/08/25 23:05:35 by qfeuilla         ###   ########.fr       */
+/*   Updated: 2020/08/26 15:05:09 by qfeuilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,9 @@ int					pipes_syntax_check(t_list *token_list);
 char				*last_token(t_list *tokenlist);
 char				*first_token(t_list *token_list);
 void				do_quotes(t_expand_tk_dt *d, char *tk);
-void				manage_tmp(t_expand_tk_dt *d, char *tmp, char *tk);
+int					manage_tmp(t_expand_tk_dt *d, char *tmp, char *tk);
+char				*expand_env_var(char *tk, t_expand_tk_dt d);
+int					expand_quote_set_vals_env(char *tk, t_expand_tk_dt *d);
 
 /*
 **		_____MINISHELL_LAUNCH_____
@@ -211,6 +213,7 @@ char				*remove_plus_sign(char *arg);
 t_list				*replance_envvar_init_vals(int *replaced);
 int					replace_envvar_util(t_list *nav, char *arg);
 int					replace_envvar(char *arg);
+int					replace_envvar_util(t_list *nav, char *arg);
 
 /*
 **		_____SIGNAL_HANDLING_____
